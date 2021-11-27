@@ -5,6 +5,12 @@
 ### DEVELOPER
 
 
+### Simón Felipe Muñoz Osorio
+| Fecha  | Ayer | Hoy | Dificultades
+| ------------- | ------------- | ------------- | ------------- |
+| 27/11/2021  | Se creó el controlador, el modelo y la migración por medio de php artisan migrate.  | Se modificará el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán los métodos CRUD del controlador |  |
+| 27/11/2021  |   |  |  |
+
 ------------
 
 ### SCRUM MASTER
