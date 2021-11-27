@@ -7,3 +7,5 @@ use App\Http\Controllers\UsuarioController;
 
 
 Route::apiResource('/usuario',UsuarioController::class);
+
+Route::apiResource('/table',TableController::class);

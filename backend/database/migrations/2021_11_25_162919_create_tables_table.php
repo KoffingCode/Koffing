@@ -15,6 +15,11 @@ class CreateTablesTable extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
+			$table->integer('number');
+			$table->enum('state', ['free', 'reserved', 'occupied']);
+			$table->integer('capacity');
+			$table->string('type');
+			$table->foreignId('turn_id')->constrained();
             $table->timestamps();
         });
     }
