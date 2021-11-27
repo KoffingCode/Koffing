@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTurnsTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTurnsTable extends Migration
      */
     public function up()
     {
-        Schema::create('turns', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-			$table->enum('type', ['laboral', 'inactivo']);
-			$table->date('date');
-			$table->time('startingHour');
-			$table->time('endingHour');
+			$table->string('userName');
+			$table->string('email')->unique();
+			$table->string('password');
+			$table->enum('role', ['admin', 'waiter'])->default('waiter');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateTurnsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('turns');
+        Schema::dropIfExists('users');
     }
 }

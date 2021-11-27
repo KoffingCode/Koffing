@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWaitersTable extends Migration
+class CreateAdministratorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateWaitersTable extends Migration
      */
     public function up()
     {
-        Schema::create('waiters', function (Blueprint $table) {
+        Schema::create('administrators', function (Blueprint $table) {
             $table->id();
 			$table->string('name');
+			$table->string('name');
 			$table->string('surname');
-			$table->enum('documentType', ['C.C','T.I','C.E'])->default('C.C');
+			$table->string('document')->default('C.C');
 			$table->string('document');
 			$table->string('address');
 			$table->string('neighbourhood');
@@ -35,6 +36,6 @@ class CreateWaitersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('waiters');
+        Schema::dropIfExists('administrators');
     }
 }
