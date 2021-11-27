@@ -17,7 +17,12 @@ const routes = [
         path: '/Usuario/create',
         name: 'Create',
         component: () => import('../views/Create.vue')
-    }
+    },
+	{
+        path: '/Usuario/mesas',
+        name: 'TableView',
+        component: () => import('../views/TableView.vue')
+	}
 ]
 
 const router = createRouter({

@@ -30,6 +30,10 @@ export default {
 				{
 					"name":"Crear",
 					"url":"/Usuario/Create"
+				},
+				{
+					"name":"Mesas",
+					"url":"/Usuario/mesas"
 				}
 			]
 		}
