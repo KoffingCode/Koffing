@@ -15,6 +15,7 @@ class CreateWaitersTable extends Migration
     {
         Schema::create('waiters', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
 			$table->string('name');
 			$table->string('surname');
 			$table->enum('documentType', ['C.C','T.I','C.E'])->default('C.C');

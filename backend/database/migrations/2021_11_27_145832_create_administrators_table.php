@@ -15,11 +15,10 @@ class CreateAdministratorsTable extends Migration
     {
         Schema::create('administrators', function (Blueprint $table) {
             $table->id();
-			$table->string('name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
 			$table->string('name');
 			$table->string('surname');
 			$table->string('document')->default('C.C');
-			$table->string('document');
 			$table->string('address');
 			$table->string('neighbourhood');
 			$table->string('city');
