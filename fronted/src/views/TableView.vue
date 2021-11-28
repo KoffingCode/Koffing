@@ -55,13 +55,16 @@
 				<div class="row mb-3">
 					<label for="type" class="col-sm-2 col-form-label">Turno: </label>
 					<div class="col-sm-10">
-						<select v-model="data.turn" class="form-select" aria-label="Default select example" id="type">
-							<option value="1">...</option>
+						<select v-model="data.turn_id" class="form-select" aria-label="Default select example" id="type">
+							<option value="1">Fecha - Inicio - Fin</option>
+							<option value="2">Fecha - Inicio - Fin</option>
 						</select>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<Verificar :errors="errors" :enviado="send"/>
 
 		<div class="row mt-1">
 			<div class="col-12">
@@ -71,42 +74,50 @@
 			</div>
 		</div>
 
-
-		<div class="col-4 mt-3">
-			<input v-model = "filter" class="form-control" type="text" id="filter" placeholder="Fitrar..." >
+		<div v-if="update" class="row mt-1">
+			<div class="col-12">
+				<div class="mb-3">
+					<button @click="cancelUpdate" class="form-control btn btn-danger">Cancelar Actualización</button>
+				</div>
+			</div>
 		</div>
-		<div class="contenido table-responsive">
-			<table  class="table table-striped table-dark text-center">
-				<thead class="header">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Estado</th>
-						<th scope="col">Capacidad</th>
-						<th scope="col">Tipo</th>
-						<th scope="col">Turno</th>
-						<th scope="col">Opciones</th>
-					</tr>
-				</thead>
-				<transition-group name="list" tag="tbody">
-					<tr v-for="(item,ind) of fullData.filter(x=>filterData(x,filter))" 
-						@mouseover="selection(ind)" name="list" :key="ind">
-						
-						<th scope="row">{{item.number}}</th>
-						<td>{{item.state}}</td>
-						<td>{{item.capacity}}</td>
-						<td>{{item.type}}</td>
-						<td>{{item.turn_id}}</td>
 
-						<td class="anchura">
-							<div v-show="ind == selected">
-								<button class="btn btn-info btn-sm mx-1">V</button>
-								<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1">M</button>
-								<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1">E</button>
-							</div>
-						</td>
-					</tr>
-				</transition-group>
-			</table>
+		<div v-if="update==false">
+			<div class="col-4 mt-3">
+				<input v-model = "filter" class="form-control" type="text" id="filter" placeholder="Fitrar..." >
+			</div>
+			<div class="contenido table-responsive">
+				<table  class="table table-striped table-dark text-center">
+					<thead class="header">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Capacidad</th>
+							<th scope="col">Tipo</th>
+							<th scope="col">Turno</th>
+							<th scope="col">Opciones</th>
+						</tr>
+					</thead>
+					<transition-group name="list" tag="tbody">
+						<tr v-for="(item,ind) of fullData.filter(x=>filterData(x,filter))" 
+							@mouseover="selection(ind)" name="list" :key="ind">
+							
+							<th scope="row">{{item.number}}</th>
+							<td>{{item.state}}</td>
+							<td>{{item.capacity}}</td>
+							<td>{{item.type}}</td>
+							<td>{{item.turn_id}}</td>
+
+							<td class="anchura">
+								<div v-show="ind == selected">
+									<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
+									<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
+								</div>
+							</td>
+						</tr>
+					</transition-group>
+				</table>
+			</div>
 		</div>
 
 		<Modal idModal="exampleModal">
@@ -124,13 +135,15 @@
 
 <script>
 //import Verificar from '@/components/Verificar.vue';
-//import Table from '@/model/Table';
+import Table from '@/model/Table';
 import Modal from '@/components/Modal.vue'
+import Verificar from '@/components/Verificar.vue';
 
 export default {
 	name: "Create",
 	components: {
-		Modal
+		Modal,
+		Verificar
 	},
 	created() {
 		this.getTablesData(),
@@ -141,13 +154,20 @@ export default {
 			fullData: [],
 			turnsData: [],
 			data: {},
+			errors: [],
 			filter: "",
-			btnText: "Registrar",
+			btnText: "",
 			send: false,
 			selected: -1,
 			update: false,
-			apiUrl: "http://127.0.0.1:8000/api/"
-		};
+			idToUpdate: "",
+			apiUrl: "http://127.0.0.1:8000/api/",
+			options: {
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					}
+		}
 	},
 	methods:{
 		getTablesData(){
@@ -162,23 +182,36 @@ export default {
 
 		},
 		sendTableData(){
+			if(this.check()){
+				let table = new Table(this.data);
+				this.send = false;
 
-			if(this.update === false){
-				this.$swal.fire(
-					'Good job!',
-					'You clicked the button!',
-					'success'
-				);
-			}else{
-				this.update = false;
+				if(this.update === false){
+					this.axios.post(`${this.apiUrl}table`,table,this.options)
+					.then(response => {
+						this.send = true;
+						console.log(response.data);
+						this.fullData.push(this.data);
+						this.data = {};
+					}).catch(error => {
+						console.log(error.data);
+					});
+				}else{
+					this.axios.put(`${this.apiUrl}table/${this.idToUpdate}`,table,this.options)
+					.then(response => {
+						this.send = true;
+						this.update = false;
+						console.log(response.data);
+						let newObj = this.fullData.find(x => x.id == this.idToUpdate);
+						let indObj = this.fullData.indexOf(newObj);
+						this.fullData[indObj] = Object.assign({}, this.data);
+						this.data = {};
+					}).catch(error => {
+						console.log(error.data);
+					});
+				}
+				console.log(this.data);
 			}
-			console.log(this.data);
-		},
-		filterData(x,filter){
-			return JSON.stringify(Object.values(x)).toLowerCase().includes(filter.toLowerCase());
-		},
-		selection(ind){
-			this.selected = ind;
 		},
 		deleteRow(id){
 			console.log(id);
@@ -188,28 +221,63 @@ export default {
 				confirmButtonText: 'SI',
 				denyButtonText: `NO`,
 			}).then((result) => {
-				/* Read more about isConfirmed, isDenied below */
 				if (result.isConfirmed) {
-				this.$swal.fire('Saved!', '', 'success')
+					this.axios.delete(`${this.apiUrl}table/${id}`)
+					.then(response => {
+						console.log(response.data);
+						this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
+					}).catch(error => {
+						console.log(error.data);
+					});
 				} else if (result.isDenied) {
 				this.$swal.fire('Changes are not saved', '', 'info')
 				}
 			})
 		},
-		updateRow(item){
-			//this.data.type = "Estandar";
-			this.data = item;
-			console.log(item);
-			this.update = true;
-		},
 		check(){
-
+			this.errors = [];
+			
+			if(this.data.number == undefined || this.data.number === ""){
+				this.errors.push("El numero de mesa requerido");
+			}
+			if(this.data.state == undefined){
+				this.errors.push("El estado de la mesa requerido");
+			}
+			if(this.data.capacity == undefined || this.data.capacity === ""){
+				this.errors.push("El tamaño de la mesa requerido");
+			}
+			if(this.data.type == undefined){
+				this.errors.push("El tipo de mesa requerido");
+			}
+			if(this.data.turn_id == undefined){
+				this.errors.push("El turno en que se atiende la mesa es requerido");
+			}
+			if (this.errors.length > 0) {
+				return false;
+			}
+			console.log(this.errors);
+			return true;
+		},
+		updateRow(item){
+			this.data = Object.assign({}, item);
+			this.update = true;
+			this.idToUpdate = item.id;
+		},
+		cancelUpdate(){
+			this.update = false;
+			this.data = {};
+		},
+		filterData(x,filter){
+			return JSON.stringify(Object.values(x)).toLowerCase().includes(filter.toLowerCase());
+		},
+		selection(ind){
+			this.selected = ind;
 		},
 		stateButton(){
 			return this.update === false ? "form-control btn btn-primary":"form-control btn btn-success";
 		},
 		txtButton(){
-			return this.update === false ? "Registrar":"Actualizar";
+			return this.update === false ? "Almacenar Mesa":"Guardar Cambios";
 		}
 	}
 }
@@ -223,7 +291,7 @@ export default {
 }
 
 .contenido{
-	height: 30em;
+	height: 300px;
 	overflow-y: auto;
 }
 

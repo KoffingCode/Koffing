@@ -7,7 +7,7 @@
 			</ul>
 		</div>
 		<div v-if="enviado" class="alert alert-success">
-			<b>Registro enviado correctamente</b>
+			<b>Registro almacenado correctamente</b>
 		</div>
 	</div>
 </template>
