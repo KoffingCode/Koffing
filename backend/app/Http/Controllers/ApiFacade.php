@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
 
@@ -76,4 +77,27 @@ class ApiFacade extends Controller
     {
         //
     }
+
+
+
+	public static function showTables($route)
+	{
+		return Route::get($route,[TableController::class,"showTables"]);
+	}
+	public static function showTable($route)
+	{
+		return Route::get($route,[TableController::class,"showTable"]);
+	}
+	public static function storeTable($route)
+	{
+		return Route::post($route,[TableController::class,"storeTable"]);
+	}
+	public static function updateTable($route)
+	{
+		return Route::put($route,[TableController::class,"updateTable"]);
+	}
+	public static function destroyTable($route)
+	{
+		return Route::delete($route,[TableController::class,"destroyTable"]);
+	}
 }

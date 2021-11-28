@@ -15,9 +15,9 @@
 					<label for="inputEmail3" class="col-sm-2 col-form-label">Estado: </label>
 					<div class="col-sm-10">
 						<select v-model="data.state" class="form-select" aria-label="Default select example" id="inputEmail3">
-							<option value="1">Disponible</option>
-							<option value="2">Reservada</option>
-							<option value="3">Ocupada</option>
+							<option value="free">Disponible</option>
+							<option value="reserved">Reservada</option>
+							<option value="occupied">Ocupada</option>
 						</select>
 					</div>
 				</div>
@@ -38,12 +38,12 @@
 				<div class="row mb-3">
 					<label for="type" class="col-sm-2 col-form-label">Tipo: </label>
 					<div class="col-sm-10">
-						<select v-model="data.type" class="form-select" aria-label="Default select example" id="type">
-							<option value="3">Estandar</option>
-							<option value="1">Barra</option>
-							<option value="2">Exterior</option>
-							<option value="3">Infantil</option>
-							<option value="3">Familiar</option>
+						<select v-model="data.type" class="form-select" aria-label="Default select example" id="type" >
+							<option value="estandar">Estandar</option>
+							<option value="barra">Barra</option>
+							<option value="exterior">Exterior</option>
+							<option value="infantil">Infantil</option>
+							<option value="familiar">Familiar</option>
 						</select>
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 					<label for="type" class="col-sm-2 col-form-label">Turno: </label>
 					<div class="col-sm-10">
 						<select v-model="data.turn" class="form-select" aria-label="Default select example" id="type">
-							<option value="3">...</option>
+							<option value="1">...</option>
 						</select>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 		<div class="row mt-1">
 			<div class="col-12">
 				<div class="mb-3">
-					<button @click="sendTableData" class="form-control btn btn-primary">Registrar</button>
+					<button @click="sendTableData" :class="stateButton()">{{txtButton()}}</button>
 				</div>
 			</div>
 		</div>
@@ -100,7 +100,7 @@
 						<td class="anchura">
 							<div v-show="ind == selected">
 								<button class="btn btn-info btn-sm mx-1">V</button>
-								<button class="btn btn-warning btn-sm mx-1">M</button>
+								<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1">M</button>
 								<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1">E</button>
 							</div>
 						</td>
@@ -142,26 +142,36 @@ export default {
 			turnsData: [],
 			data: {},
 			filter: "",
+			btnText: "Registrar",
 			send: false,
 			selected: -1,
-			update: false
-
+			update: false,
+			apiUrl: "http://127.0.0.1:8000/api/"
 		};
 	},
 	methods:{
 		getTablesData(){
-			this.fullData.push({
-				'number':1,
-				'state':"disponible",
-				'capacity':5,
-				'type':"estandar",
-				'turn_id':1,
-			});
+			this.axios.get(`${this.apiUrl}tables`).then((response) => {
+				console.log(response.data);
+				this.fullData = response.data;
+			}).catch((error) => {
+				console.log(error)
+			})
 		},
 		getTurnsData(){
 
 		},
 		sendTableData(){
+
+			if(this.update === false){
+				this.$swal.fire(
+					'Good job!',
+					'You clicked the button!',
+					'success'
+				);
+			}else{
+				this.update = false;
+			}
 			console.log(this.data);
 		},
 		filterData(x,filter){
@@ -185,6 +195,21 @@ export default {
 				this.$swal.fire('Changes are not saved', '', 'info')
 				}
 			})
+		},
+		updateRow(item){
+			//this.data.type = "Estandar";
+			this.data = item;
+			console.log(item);
+			this.update = true;
+		},
+		check(){
+
+		},
+		stateButton(){
+			return this.update === false ? "form-control btn btn-primary":"form-control btn btn-success";
+		},
+		txtButton(){
+			return this.update === false ? "Registrar":"Actualizar";
 		}
 	}
 }

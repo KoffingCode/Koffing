@@ -31,13 +31,15 @@ export default {
     name: 'Home',
 	props: ['test','test2'],
 	created() {
-		this.$router.push({
+/* 		this.$router.push({
 			name: 'Home',
 			params: {
 				test: 'hello there',
 				test2: 'dfdf' 
 			}
-		})},
+		}) */
+
+	},
     components: {
         HelloWorld,
 		Modal

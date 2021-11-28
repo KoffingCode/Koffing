@@ -10,6 +10,14 @@ use App\Http\Controllers\WaiterController;
 
 //Route::apiResource('/table',TableController::class);
 
-//Route::apiResource('/usuario',UsuarioController::class);
+Route::apiResource('/usuario',UsuarioController::class);
 
 Route::get('/waiter', [ApiFacade::class, 'showWaiter']);
+
+
+
+ApiFacade::showTable('/table/{id}');
+ApiFacade::showTables('/tables');
+ApiFacade::storeTable('/table');
+ApiFacade::updateTable('/table/{id}');
+ApiFacade::destroyTable('/table/{id}');
