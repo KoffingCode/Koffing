@@ -18,6 +18,7 @@ Route::get('/waiter', [ApiFacade::class, 'showWaiter']);
 
 ApiFacade::showTable('/table/{id}');
 ApiFacade::showTables('/tables');
+ApiFacade::tablesOfTurn('/tablesOfTurn/{id}');
 ApiFacade::storeTable('/table');
 ApiFacade::updateTable('/table/{id}');
 ApiFacade::destroyTable('/table/{id}');

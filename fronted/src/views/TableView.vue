@@ -5,7 +5,7 @@
 				<div class="row mb-3">
 					<label for="number" class="col-sm-2 col-form-label">Número: </label>
 					<div class="col-sm-10">
-						<input v-model="data.number" type="number" class="form-control" id="number">
+						<input @click="setNumberTable" v-model="data.number" type="number" class="form-control" id="number">
 					</div>
 				</div>
 			</div>
@@ -68,19 +68,16 @@
 		<Verificar @mouseover="send=false" :errors="errors" :enviado="send"/>
 
 		<div class="row mt-1">
-			<div class="col-12">
+			<div class="col-12 d-flex justify-content-center">
 				<div class="mb-3">
 					<button @click="sendTableData" :class="stateButton()">
-						{{txtButton()}}
+						{{txtButton()}} 
+						<i class="bi bi-save2-fill"></i>
 					</button>
-				</div>
-			</div>
-		</div>
-
-		<div v-if="update" class="row mt-1">
-			<div class="col-12">
-				<div class="mb-3">
-					<button @click="cancelUpdate" class="form-control btn btn-danger">Cancelar Actualización</button>
+					<button v-if="update" @click="cancelUpdate" class="btn btn-danger px-5 mx-2">
+						Cancelar Actualización 
+						<i class="bi bi-x-square-fill"></i>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -96,7 +93,7 @@
 		</transition>
 
 		<transition name="fade">
-		<div v-if="update==false">
+		<div v-if="update==false && fullData.length>0">
 			<div class="col-4 mt-3">
 				<input v-model = "filter" class="form-control" type="text" id="filter" placeholder="Fitrar..." >
 			</div>
@@ -188,9 +185,6 @@ export default {
 			this.axios.get(`/tables`).then((response) => {
 				console.log(response.data);
 				this.fullData = response.data;
-				response.data.forEach(item =>{
-					this.numbersTables.push(item.number);
-				});
 				this.status = "finish";
 			}).catch((error) => {
 				console.log(error);
@@ -209,7 +203,7 @@ export default {
 				if(this.update === false){
 					this.axios.post(`table`,table)
 					.then(response => {
-						this.send = true;
+						this.okMessage("Mesa almacenada correctamente");
 						console.log(response.data);
 						this.fullData.push(this.data);
 						this.data = {};
@@ -221,7 +215,7 @@ export default {
 				}else{
 					this.axios.put(`table/${this.idToUpdate}`,table)
 					.then(response => {
-						this.send = true;
+						this.okMessage("Mesa actualizada correctamente");
 						this.update = false;
 						console.log(response.data);
 						let newObj = this.fullData.find(x => x.id == this.idToUpdate);
@@ -241,6 +235,7 @@ export default {
 			console.log(id);
 			this.$swal.fire({
 				title: '¿Desea eliminar este registro?',
+				icon: 'question',
 				showDenyButton: true,
 				confirmButtonText: 'SI',
 				denyButtonText: `NO`,
@@ -257,7 +252,7 @@ export default {
 						this.status = "finish";
 					});
 				} else if (result.isDenied) {
-				this.$swal.fire('Changes are not saved', '', 'info')
+					//this.$swal.fire('Changes are not saved', '', 'info')
 				}
 			})
 		},
@@ -287,6 +282,27 @@ export default {
 			console.log(this.errors);
 			return true;
 		},
+		setNumberTable(){
+			let max = 1;
+			this.fullData .forEach(item =>{
+				this.numbersTables.push(parseInt(item.number));
+			});
+			this.numbersTables.forEach(item =>{
+				if(item>max){
+					max = item;
+				}
+			});
+			this.data.number = max + 1;
+		},
+		okMessage(text){
+			this.$swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: text,
+				showConfirmButton: false,
+				timer: 1500
+			});
+		},
 		checkNumber(number){
 			console.log(number);
 			if(parseInt(number) <= 0){
@@ -309,7 +325,7 @@ export default {
 			this.selected = ind;
 		},
 		stateButton(){
-			return this.update === false ? "form-control btn btn-primary":"form-control btn btn-success";
+			return this.update === false ? "btn btn-primary px-5":"btn btn-success px-5 mx-2";
 		},
 		txtButton(){
 			return this.update === false ? "Almacenar Mesa":"Guardar Cambios";
@@ -335,6 +351,10 @@ export default {
 	top: 0;
 	background-color: rgba(19, 24, 27, 0.8) !important;
 	color:white;
+}
+
+td{
+	padding: 5px;
 }
 
 

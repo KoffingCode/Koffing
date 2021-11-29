@@ -88,6 +88,10 @@ class ApiFacade extends Controller
 	{
 		return Route::get($route,[TableController::class,"showTable"]);
 	}
+	public static function tablesOfTurn($route)
+	{
+		return Route::get($route,[TableController::class,"tablesOfTurn"]);
+	}
 	public static function storeTable($route)
 	{
 		return Route::post($route,[TableController::class,"storeTable"]);

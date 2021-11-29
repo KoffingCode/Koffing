@@ -22,6 +22,12 @@ class TableController extends Controller
 		return response()->json($table, 200);
 	}
 
+    public static function tablesOfTurn($id)
+	{
+		$tables = Table::where("turn_id","=",$id)->get();
+		return response()->json($tables, 200);
+	}
+
 	public static function storeTable(Request $request)
 	{
 		Table::create($request->all());
