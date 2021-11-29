@@ -23,6 +23,10 @@ const app = createApp(App);
 // npm install bcryptjs
 // npm install vue-cookies --save
 
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.put['Content-Type'] = 'application/json';
+
 app.use(router);
 app.use(VueAxios, axios);
 app.use(VueSweetalert2);

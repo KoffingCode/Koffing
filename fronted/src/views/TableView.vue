@@ -29,7 +29,8 @@
 				<div class="row mb-3">
 					<label for="capacity" class="col-sm-2 col-form-label">Capacidad: </label>
 					<div class="col-sm-10">
-						<input v-model="data.capacity" type="number" class="form-control" id="capacity">
+						<input @input="data.capacity = parseInt(data.capacity) <= 1 ? 2 : data.capacity" 
+						v-model="data.capacity" type="number" class="form-control" id="capacity">
 					</div>
 				</div>
 			</div>
@@ -64,12 +65,14 @@
 			</div>
 		</div>
 
-		<Verificar :errors="errors" :enviado="send"/>
+		<Verificar @mouseover="send=false" :errors="errors" :enviado="send"/>
 
 		<div class="row mt-1">
 			<div class="col-12">
 				<div class="mb-3">
-					<button @click="sendTableData" :class="stateButton()">{{txtButton()}}</button>
+					<button @click="sendTableData" :class="stateButton()">
+						{{txtButton()}}
+					</button>
 				</div>
 			</div>
 		</div>
@@ -82,6 +85,17 @@
 			</div>
 		</div>
 
+		<transition name="fade">	
+		<div v-if="status=='sending'" class="row mt-1">
+			<div class="col-12 d-flex justify-content-center">
+				<div class="spinner-border my-3" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+		</div>
+		</transition>
+
+		<transition name="fade">
 		<div v-if="update==false">
 			<div class="col-4 mt-3">
 				<input v-model = "filter" class="form-control" type="text" id="filter" placeholder="Fitrar..." >
@@ -109,16 +123,19 @@
 							<td>{{item.turn_id}}</td>
 
 							<td class="anchura">
+								<transition name="fade">
 								<div v-show="ind == selected">
 									<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
 									<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
 								</div>
+								</transition>
 							</td>
 						</tr>
 					</transition-group>
 				</table>
 			</div>
 		</div>
+		</transition>
 
 		<Modal idModal="exampleModal">
 			<template v-slot:contenido >
@@ -146,8 +163,8 @@ export default {
 		Verificar
 	},
 	created() {
-		this.getTablesData(),
-		this.getTurnsData()
+		this.getTablesData();
+		this.getTurnsData();
 	},
 	data() {
 		return {
@@ -155,27 +172,29 @@ export default {
 			turnsData: [],
 			data: {},
 			errors: [],
+			numbersTables: [],
 			filter: "",
 			btnText: "",
 			send: false,
 			selected: -1,
 			update: false,
 			idToUpdate: "",
-			apiUrl: "http://127.0.0.1:8000/api/",
-			options: {
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					}
+			status: ""
 		}
 	},
 	methods:{
 		getTablesData(){
-			this.axios.get(`${this.apiUrl}tables`).then((response) => {
+			this.status = "sending";
+			this.axios.get(`/tables`).then((response) => {
 				console.log(response.data);
 				this.fullData = response.data;
+				response.data.forEach(item =>{
+					this.numbersTables.push(item.number);
+				});
+				this.status = "finish";
 			}).catch((error) => {
-				console.log(error)
+				console.log(error);
+				this.status = "finish";
 			})
 		},
 		getTurnsData(){
@@ -183,21 +202,24 @@ export default {
 		},
 		sendTableData(){
 			if(this.check()){
+				this.status = "sending";
 				let table = new Table(this.data);
 				this.send = false;
 
 				if(this.update === false){
-					this.axios.post(`${this.apiUrl}table`,table,this.options)
+					this.axios.post(`table`,table)
 					.then(response => {
 						this.send = true;
 						console.log(response.data);
 						this.fullData.push(this.data);
 						this.data = {};
+						this.status = "ok";
 					}).catch(error => {
 						console.log(error.data);
+						this.status = "finish";
 					});
 				}else{
-					this.axios.put(`${this.apiUrl}table/${this.idToUpdate}`,table,this.options)
+					this.axios.put(`table/${this.idToUpdate}`,table)
 					.then(response => {
 						this.send = true;
 						this.update = false;
@@ -206,8 +228,10 @@ export default {
 						let indObj = this.fullData.indexOf(newObj);
 						this.fullData[indObj] = Object.assign({}, this.data);
 						this.data = {};
+						this.status = "ok";
 					}).catch(error => {
 						console.log(error.data);
+						this.status = "finish";
 					});
 				}
 				console.log(this.data);
@@ -222,12 +246,15 @@ export default {
 				denyButtonText: `NO`,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					this.axios.delete(`${this.apiUrl}table/${id}`)
+					this.status = "sending";
+					this.axios.delete(`table/${id}`)
 					.then(response => {
 						console.log(response.data);
 						this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
+						this.status = "finish";
 					}).catch(error => {
 						console.log(error.data);
+						this.status = "finish";
 					});
 				} else if (result.isDenied) {
 				this.$swal.fire('Changes are not saved', '', 'info')
@@ -236,7 +263,9 @@ export default {
 		},
 		check(){
 			this.errors = [];
-			
+			if(this.numbersTables.includes(this.data.number) && this.update === false){
+				this.errors.push("Esta mesa ya se ha almacenado antes");
+			}
 			if(this.data.number == undefined || this.data.number === ""){
 				this.errors.push("El numero de mesa requerido");
 			}
@@ -257,6 +286,12 @@ export default {
 			}
 			console.log(this.errors);
 			return true;
+		},
+		checkNumber(number){
+			console.log(number);
+			if(parseInt(number) <= 0){
+				this.data.capacity = 1;
+			}
 		},
 		updateRow(item){
 			this.data = Object.assign({}, item);
@@ -300,6 +335,17 @@ export default {
 	top: 0;
 	background-color: rgba(19, 24, 27, 0.8) !important;
 	color:white;
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
 
 .table-dark {
