@@ -78,30 +78,37 @@ class ApiFacade extends Controller
         //
     }
 
+	public static function apiRoutesTable(){
+		ApiFacade::showTable('/table/{id}',"showTable");
+		ApiFacade::showTables('/tables',"showTables");
+		ApiFacade::tablesOfTurn('/tablesOfTurn/{id}',"tablesOfTurn");
+		ApiFacade::storeTable('/table',"storeTable");
+		ApiFacade::updateTable('/table/{id}',"updateTable");
+		ApiFacade::destroyTable('/table/{id}',"destroyTable");
+	}
 
-
-	public static function showTables($route)
+	public static function showTables($route,$processName)
 	{
-		return Route::get($route,[TableController::class,"showTables"]);
+		return Route::get($route,[TableController::class,$processName]);
 	}
-	public static function showTable($route)
+	public static function showTable($route,$processName)
 	{
-		return Route::get($route,[TableController::class,"showTable"]);
+		return Route::get($route,[TableController::class,$processName]);
 	}
-	public static function tablesOfTurn($route)
+	public static function tablesOfTurn($route,$processName)
 	{
-		return Route::get($route,[TableController::class,"tablesOfTurn"]);
+		return Route::get($route,[TableController::class,$processName]);
 	}
-	public static function storeTable($route)
+	public static function storeTable($route,$processName)
 	{
-		return Route::post($route,[TableController::class,"storeTable"]);
+		return Route::post($route,[TableController::class,$processName]);
 	}
-	public static function updateTable($route)
+	public static function updateTable($route,$processName)
 	{
-		return Route::put($route,[TableController::class,"updateTable"]);
+		return Route::put($route,[TableController::class,$processName]);
 	}
-	public static function destroyTable($route)
+	public static function destroyTable($route,$processName)
 	{
-		return Route::delete($route,[TableController::class,"destroyTable"]);
+		return Route::delete($route,[TableController::class,$processName]);
 	}
 }
