@@ -2,24 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Table;
 
 class TableController extends Controller
 {
-    public static function showTables()
+	public static function checkResponse($response,$exception)
+	{
+		if($exception->getMessage() != ""){
+			return response()->json(['error' => $exception->getMessage()], 500);
+		}else{
+			return response()->json($response, 200);
+		}
+	}
+	
+    public static function showTables(Exception $exception)
 	{
 		$listado = [];
 		foreach (Table::all() as $usuario) {
 			array_push($listado,$usuario);
 		}
-		return response()->json($listado, 200);
+		return self::checkResponse($listado,$exception);
 	}
 
     public static function showTable($id)
 	{
 		$table = Table::where("id","=",$id)->first();
-		return response()->json($table, 200);
+		if($table != null){
+			return response()->json($table, 200);
+		}else{
+			return response()->json(['error' => 'No se encontró la mesa'], 404);
+		}
 	}
 
     public static function tablesOfTurn($id)
@@ -28,23 +42,27 @@ class TableController extends Controller
 		return response()->json($tables, 200);
 	}
 
-	public static function storeTable(Request $request)
+	public static function storeTable(Request $request,Exception $exception)
 	{
 		Table::create($request->all());
-		return response("Storing resource");
+		return self::checkResponse($request->all(),$exception);
 	}
 
-	public static function updateTable(Request $request,$id)
+	public static function updateTable(Request $request,$id,Exception $exception)
 	{
 		$table = Table::where("id","=",$id)->first();
 		$table->update($request->all());
-		return response()->json($table, 200);
+		return self::checkResponse($table,$exception);
 	}
 
 	public static function destroyTable($id)
 	{
 		$table = Table::where("id","=",$id)->first();
-		$table->delete();
-		return response()->json($table, 200);
+		if($table != null){
+			$table->delete();
+			return response()->json($table, 200);
+		}else{
+			return response()->json(['error' => 'No se encontró la mesa'], 404);
+		}
 	}
 }

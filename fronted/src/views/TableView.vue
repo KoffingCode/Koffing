@@ -57,8 +57,9 @@
 					<label for="type" class="col-sm-2 col-form-label">Turno: </label>
 					<div class="col-sm-10">
 						<select v-model="data.turn_id" class="form-select" aria-label="Default select example" id="type">
-							<option value="1">Fecha - Inicio - Fin</option>
-							<option value="2">Fecha - Inicio - Fin</option>
+							<option v-for="(item,k) in turnsData" :key="k" :value="item.id">
+								{{item.label}}
+							</option>
 						</select>
 					</div>
 				</div>
@@ -85,7 +86,7 @@
 		<transition name="fade">	
 		<div v-if="status=='sending'" class="row mt-1">
 			<div class="col-12 d-flex justify-content-center">
-				<div class="spinner-border my-3" role="status">
+				<div class="spinner-grow my-3" role="status">
 					<span class="sr-only">Loading...</span>
 				</div>
 			</div>
@@ -193,6 +194,17 @@ export default {
 		},
 		getTurnsData(){
 
+
+			this.turnsData = [
+				{
+					id:1,
+					label: "Fecha - Inicio - Fin"
+				},
+				{
+					id:2,
+					label: "Fecha - Inicio - Fin"
+				}
+			]
 		},
 		sendTableData(){
 			if(this.check()){

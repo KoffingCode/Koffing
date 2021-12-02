@@ -13,3 +13,4 @@ Route::get('/waiter', [ApiFacade::class, 'showWaiter']);
 
 
 ApiFacade::apiRoutesTable();
+ApiFacade::apiRoutesQuerysWaiter();
