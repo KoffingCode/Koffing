@@ -1,10 +1,9 @@
-export default class Usuario {
+export default class Table {
 	constructor(data) {
-		this.id = data.id;
 		this.number = data.number;
 		this.capacity = data.capacity;
 		this.state = data.state;
 		this.type = data.type;
-		this.turn = data.turn;
+		this.turn_id = data.turn_id;
 	}
 }

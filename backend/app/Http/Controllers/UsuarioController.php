@@ -53,6 +53,9 @@ class UsuarioController extends Controller
 		$usuario = Usuario::where("id","=",$id)->first();
 		// https://laravel.com/docs/8.x/eloquent-relationships#attaching-detaching
 		// https://laravel.com/docs/8.x/eloquent-relationships#syncing-associations
+		// https://stackoverflow.com/questions/23968415/laravel-eloquent-attach-vs-sync
+		// https://laravel.com/docs/8.x/eloquent-relationships#retrieving-intermediate-table-columns
+		// https://laravel.com/docs/8.x/eloquent-relationships#querying-relations
 		//$usuario->tags();
 
         return response()->json($usuario, 200);

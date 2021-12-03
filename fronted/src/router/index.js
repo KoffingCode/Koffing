@@ -19,7 +19,7 @@ const routes = [
         component: () => import('../views/Create.vue')
     },
 	{
-        path: '/Usuario/mesas',
+        path: '/admin/mesas',
         name: 'TableView',
         component: () => import('../views/TableView.vue')
 	}

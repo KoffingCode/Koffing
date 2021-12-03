@@ -1,6 +1,6 @@
 <template>
 	<div>       
-		<NavBar class="container-fluid" :routes="rutas"/>	
+		<NavBar class="container-fluid" :routes="rutasAdmin"/>	
 		<div class="container justify-content-center">
 			<router-view/>
 		</div>
@@ -18,10 +18,16 @@ export default {
 	data() {
 		return {
 			ruta: "/Usuario/1/edit",
-			rutas:[
+			rutasAdmin:[
 				{
 					"name":"Home",
-					"url":"/"
+					"url":{
+						name: 'Home',
+						params: {
+							test: 'hello there',
+							test2: 'dfdf' 
+						},
+					},
 				},
 				{
 					"name":"Actualizar",
@@ -33,9 +39,10 @@ export default {
 				},
 				{
 					"name":"Mesas",
-					"url":"/Usuario/mesas"
+					"url":"/admin/mesas"
 				}
-			]
+			],
+			rutasMesero:[]
 		}
 	},
 }
