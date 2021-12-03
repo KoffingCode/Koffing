@@ -12,4 +12,4 @@ use App\Http\Controllers\WaiterController;
 
 //Route::apiResource('/usuario',UsuarioController::class);
 
-Route::get('/waiter', [ApiFacade::class, 'showWaiter']);
+Route::get('/waiter/{waiterId}', [ApiFacade::class, 'getWaiter']);
