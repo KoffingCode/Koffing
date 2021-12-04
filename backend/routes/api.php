@@ -23,4 +23,4 @@ Route::apiResource('/usuario',UsuarioController::class);
 
 TablesApi::routesTable();
 QuerysWaiterApi::routesQuerysWaiter();
-WaitersApi::routesTable();
+WaitersApi::routesWaiter();

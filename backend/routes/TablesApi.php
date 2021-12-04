@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Route;
 class TablesApi
 {
 	public static function routesTable(){
-		TablesApi::getOfTable('/table/{id}',"showTable");
-		TablesApi::getOfTable('/tables',"showTables");
-		TablesApi::getOfTable('/tablesOfTurn/{id}',"tablesOfTurn");
-		TablesApi::storeTable('/table',"storeTable");
-		TablesApi::updateTable('/table/{id}',"updateTable");
-		TablesApi::destroyTable('/table/{id}',"destroyTable");
+		self::getOfTable('/table/{id}',"showTable");
+		self::getOfTable('/tables',"showTables");
+		self::getOfTable('/tablesOfTurn/{id}',"tablesOfTurn");
+		self::storeTable('/table',"storeTable");
+		self::updateTable('/table/{id}',"updateTable");
+		self::destroyTable('/table/{id}',"destroyTable");
 	}
 
 	public static function getOfTable($route,$processName)

@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Route;
 class QuerysWaiterApi
 {
 	public static function routesQuerysWaiter(){
-		QuerysWaiterApi::querysWaiter('/querysWaiter/waiter/{document}',"getWaiter");
-		QuerysWaiterApi::querysWaiter('/querysWaiter/turns/{document}',"getTurnsOfWaiter");
-		QuerysWaiterApi::querysWaiter('/querysWaiter/tables/{id}',"getTablesOfTurn");
+		self::querysWaiter('/querysWaiter/waiter/{document}',"getWaiter");
+		self::querysWaiter('/querysWaiter/turns/{document}',"getTurnsOfWaiter");
+		self::querysWaiter('/querysWaiter/tables/{id}',"getTablesOfTurn");
 	}
 
 	public static function querysWaiter($route,$processName)
