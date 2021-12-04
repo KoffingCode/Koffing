@@ -22,6 +22,11 @@ const routes = [
         path: '/admin/mesas',
         name: 'TableView',
         component: () => import('../views/TableView.vue')
+	},
+	{
+        path: '/mesero/mesas',
+        name: 'Consultas',
+        component: () => import('../views/QuerysWaiter.vue')
 	}
 ]
 

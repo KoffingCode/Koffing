@@ -40,6 +40,10 @@ export default {
 				{
 					"name":"Mesas",
 					"url":"/admin/mesas"
+				},
+				{
+					"name":"Consultas",
+					"url":"/mesero/mesas"
 				}
 			],
 			rutasMesero:[]

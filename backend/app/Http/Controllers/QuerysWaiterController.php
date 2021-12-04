@@ -23,12 +23,12 @@ class QuerysWaiterController extends Controller
 	}
 
 	public static function getWaiter($document){
-		$waiter = Waiter::where('document','=', $document)->get();
+		$waiter = Waiter::where('document','=', $document)->first();
 		return self::checkResponse($waiter);
 	}
 
 	public static function getTurnsOfWaiter($document){
-		$waiter = self::getWaiter($document)->get();
+		$waiter = Waiter::where('document','=', $document)->first();
 		$turns = $waiter->turns()->get();
 		return self::checkResponse($turns);
 	}
