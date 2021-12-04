@@ -178,14 +178,13 @@ export default {
 			selected: -1,
 			update: false,
 			idToUpdate: "",
-			status: "",
-			facade: new Facade()
+			status: ""
 		}
 	},
 	methods:{
 		getTablesData(){
 			this.status = "sending";
-			this.facade.getTablesData(
+			Facade.getTablesData(
 				response =>{
 					console.log(response.data);
 					this.fullData = response.data;
@@ -218,7 +217,7 @@ export default {
 				this.send = false;
 
 				if(this.update === false){
-					this.facade.storeTable(
+					Facade.storeTable(
 						table,
 						response =>{
 							this.okMessage("Mesa almacenada correctamente");
@@ -233,7 +232,7 @@ export default {
 						}
 					);
 				}else{
-					this.facade.updateTable(
+					Facade.updateTable(
 						table,
 						this.idToUpdate,
 						response =>{
@@ -265,7 +264,7 @@ export default {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					this.status = "sending";
-					this.facade.deleteTable(
+					Facade.deleteTable(
 						id,
 						response =>{
 							console.log(response.data);

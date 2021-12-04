@@ -1,10 +1,7 @@
 import axios from 'axios'
 
 export default class Facade {
-	constructor() {
-	}
-
-	getTablesData(processThen,processCatch){
+	static getTablesData(processThen,processCatch){
 		axios.get(`/tables`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -12,7 +9,7 @@ export default class Facade {
 		})
 	}
 
-	storeTable(table,processThen,processCatch){
+	static storeTable(table,processThen,processCatch){
 		axios.post(`table`,table).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -20,7 +17,7 @@ export default class Facade {
 		})
 	}
 
-	updateTable(table,id,processThen,processCatch){
+	static updateTable(table,id,processThen,processCatch){
 		axios.put(`table/${id}`,table).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -28,7 +25,7 @@ export default class Facade {
 		})
 	}
 
-	deleteTable(id,processThen,processCatch){
+	static deleteTable(id,processThen,processCatch){
 		axios.put(`table/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
