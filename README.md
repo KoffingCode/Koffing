@@ -6,7 +6,7 @@
 | Fecha  | Ayer | Hoy | Dificultades
 | ------------- | ------------- | ------------- | ------------- |
 | 27/11/2021  | Se creó el controlador, el modelo y la migración por medio de php artisan migrate.  | Se modificará el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán los métodos CRUD del controlador. |  |
-| 27/11/2021  |   |  |  |
+| 3/12/2021  | Se modificó el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán las definiciones de los métodos CRUD del controlador.  | Implementar los métodos CRUD del controlador y conectar la api gateway con la api de meseros |  |
 
 ------------
 
