@@ -33,6 +33,14 @@ export default class Facade {
 		})
 	}
 
+	static getDataFromWaiter(document,processThen,processCatch){
+		axios.get(`querysWaiter/waiter/${document}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
 	static getTurnsFromWaiter(document,processThen,processCatch){
 		axios.get(`querysWaiter/turns/${document}`).then((response) => {
 			processThen(response);

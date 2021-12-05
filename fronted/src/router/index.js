@@ -24,8 +24,9 @@ const routes = [
         component: () => import('../views/TableView.vue')
 	},
 	{
-        path: '/mesero/mesas',
+        path: '/mesero/consultas',
         name: 'Consultas',
+		props: true,
         component: () => import('../views/QuerysWaiter.vue')
 	}
 ]
