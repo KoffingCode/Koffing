@@ -34,7 +34,6 @@
 						</div>
 					</div>
 				</div>
-			
 			</div>
 		</transition>
 
@@ -71,7 +70,6 @@
 								<td class="anchura">
 									<transition name="fade">
 									<div v-show="ind == selected">
-										
 										<button @click="getTables(item.id)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 											Mesas
 										</button>
@@ -139,7 +137,6 @@
 			<template v-slot:botones >
 			</template>
 		</Modal>
-		
 	</div>
 </template>
 

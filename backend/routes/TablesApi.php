@@ -17,19 +17,19 @@ class TablesApi
 		self::destroyTable('/table/{id}',"destroyTable");
 	}
 
-	public static function getOfTable($route,$processName)
+	private static function getOfTable($route,$processName)
 	{
 		return Route::get($route,[TableController::class,$processName]);
 	}
-	public static function storeTable($route,$processName)
+	private static function storeTable($route,$processName)
 	{
 		return Route::post($route,[TableController::class,$processName]);
 	}
-	public static function updateTable($route,$processName)
+	private static function updateTable($route,$processName)
 	{
 		return Route::put($route,[TableController::class,$processName]);
 	}
-	public static function destroyTable($route,$processName)
+	private static function destroyTable($route,$processName)
 	{
 		return Route::delete($route,[TableController::class,$processName]);
 	}

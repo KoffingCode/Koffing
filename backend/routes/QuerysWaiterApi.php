@@ -14,7 +14,7 @@ class QuerysWaiterApi
 		self::querysWaiter('/querysWaiter/tables/{id}',"getTablesOfTurn");
 	}
 
-	public static function querysWaiter($route,$processName)
+	private static function querysWaiter($route,$processName)
 	{
 		return Route::get($route,[QuerysWaiterController::class,$processName]);
 	}
