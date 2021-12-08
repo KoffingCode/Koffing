@@ -16,7 +16,7 @@ class CreateTurnsTable extends Migration
         Schema::create('turns', function (Blueprint $table) {
             $table->id();
 			$table->enum('type', ['laboral', 'inactivo']);
-			$table->date('date');
+			$table->date('date')->default(now());
 			$table->time('startingHour');
 			$table->time('endingHour');
             $table->timestamps();

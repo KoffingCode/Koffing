@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\ApiFacade;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\TurnController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiFacade;
+use Routes\WaitersApi;
+use Routes\TablesApi;
+use Routes\QuerysWaiterApi;
 
-//Route::apiResource('/table',TableController::class);
-
-Route::apiResource('/usuario',UsuarioController::class);
-
-Route::get('/waiter', [ApiFacade::class, 'showWaiter']);
+include 'WaitersApi.php';
+include 'TablesApi.php';
+include 'QuerysWaiterApi.php';
 
 ApiFacade::apiRoutesTurn();
 
-ApiFacade::apiRoutesTable();
-ApiFacade::apiRoutesQuerysWaiter();
+TablesApi::routesTable();
+QuerysWaiterApi::routesQuerysWaiter();
+WaitersApi::routesWaiter();

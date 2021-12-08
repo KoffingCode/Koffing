@@ -28,6 +28,12 @@ const routes = [
         name: 'TurnView',
         component: () =>import('../views/TurnView.vue')
     }
+	{
+        path: '/mesero/consultas',
+        name: 'Consultas',
+		props: true,
+        component: () => import('../views/QuerysWaiter.vue')
+	}
 ]
 
 const router = createRouter({

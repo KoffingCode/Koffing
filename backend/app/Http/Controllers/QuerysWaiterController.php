@@ -13,21 +13,29 @@ use Illuminate\Http\Request;
 
 class QuerysWaiterController extends Controller
 {
-
-	public function getWaiter($document){
-		$waiter = Waiter::where('document','=', $document)->get();
-		return response()->json($waiter, 200);
+	public static function checkResponse($response)
+	{
+		if($response != null){
+			return response()->json($response, 200);
+		}else{
+			return response()->json(['error' => 'Ningun registro encontrado'], 404);
+		}
 	}
 
-	public function getTurnsOfWaiter($document){
-		$waiter = $this->getWaiter($document)->get();
+	public static function getWaiter($document){
+		$waiter = Waiter::where('document','=', $document)->first();
+		return self::checkResponse($waiter);
+	}
+
+	public static function getTurnsOfWaiter($document){
+		$waiter = Waiter::where('document','=', $document)->first();
 		$turns = $waiter->turns()->get();
-		return response()->json($turns, 200);
+		return self::checkResponse($turns);
 	}
 
-	public function getTablesOfTurn($id){
+	public static function getTablesOfTurn($id){
 		$turn = Turn::find($id);
 		$tables = $turn->tables()->get();
-		return response()->json($tables, 200);
+		return self::checkResponse($tables);
 	}
 }

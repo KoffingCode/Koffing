@@ -102,7 +102,6 @@
 								<div v-show="ind == selected">
 									<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
 									<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
-									
 								</div>
 								</transition>
 							</td>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWaiterxturn extends Migration
+class CreateWaiterTurnTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWaiterxturn extends Migration
      */
     public function up()
     {
-        Schema::create('waiterxturn', function (Blueprint $table) {
+        Schema::create('turn_waiter', function (Blueprint $table) {
             $table->id();
 			$table->foreignId('turn_id')->constrained()->onDelete('cascade');
 			$table->foreignId('waiter_id')->constrained()->onDelete('cascade');
@@ -28,6 +28,6 @@ class CreateWaiterxturn extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('waiterxturn');
+        Schema::dropIfExists('turn_waiter');
     }
 }
