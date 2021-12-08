@@ -27,7 +27,7 @@ const routes = [
         path: '/admin/turnos',
         name: 'TurnView',
         component: () =>import('../views/TurnView.vue')
-    }
+    },
 	{
         path: '/mesero/consultas',
         name: 'Consultas',

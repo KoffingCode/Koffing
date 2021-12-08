@@ -27,7 +27,9 @@ class TurnController extends Controller
     public function storeTurn(Request $request, Exception $exception)
     {
         Turn::create($request->all());
-        return self::checkResponse($request->all(),$exception);
+        // return self::checkResponse($request->all(),$exception);
+        return $request->all();
+
     }
 
     /**
@@ -68,7 +70,7 @@ class TurnController extends Controller
      */
     public function updateTurn(Request $request, Exception $exception,$id)
     {
-        $turn = Turn::where("id","=",$id)->fist();
+        $turn = Turn::where("id","=",$id)->first();
         $turn->update($request->all());
         return self::checkResponse($turn,$exception);
     }

@@ -115,31 +115,4 @@ class ApiFacade extends Controller
 		return Route::get($route,[QuerysWaiterController::class,$processName]);
 	}
 
-    //Turns
-    public static function apiRoutesTurn(){
-		ApiFacade::getOfTurn('/turn/{id}',"showTurn");
-		ApiFacade::getOfTurn('/turns',"showTurns");
-		ApiFacade::storeTurn('/turn',"storeTurn");
-		ApiFacade::updateTurn('/turn/{id}',"updateTurn");
-		ApiFacade::destroyTurn('/turn/{id}',"destroyTurn");
-	}
-
-    public static function getOfTurn($route,$processName)
-	{
-		return Route::get($route,[TurnController::class,$processName]);
-	}
-	public static function storeTurn($route,$processName)
-	{
-		return Route::post($route,[TurnController::class,$processName]);
-	}
-	public static function updateTurn($route,$processName)
-	{
-		return Route::put($route,[TurnController::class,$processName]);
-	}
-	public static function destroyTurn($route,$processName)
-	{
-		return Route::delete($route,[TurnController::class,$processName]);
-	}
-
-
 }
