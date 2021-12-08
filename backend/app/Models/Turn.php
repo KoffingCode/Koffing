@@ -9,6 +9,13 @@ class Turn extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+		'type',
+		'date',
+		'startingHour',
+		'endingHour'
+	];
+
     public function waiters()
     {
         return $this->belongsToMany(Waiter::class);
@@ -16,6 +23,6 @@ class Turn extends Model
 
     public function tables()
     {
-        return $this->hasMany(Table::class);
+        return $this->belongsToMany(Table::class);
     }
 }
