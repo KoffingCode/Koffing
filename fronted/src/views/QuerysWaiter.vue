@@ -3,34 +3,32 @@
 
 		<transition name="fade">
 			<div v-if="currentWaiter!=null" class="WaiterData">
-				<div class="my-3">
-					<div class="row">
-						<div class="col">
-							<h4>Datos personales:</h4>
+				<div class="card border-dark my-3" >
+					<h4 class="card-header">Datos personales:</h4>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-3">
+								<strong>Nombre: </strong>
+							</div>
+							<div class="col-3">
+								{{currentWaiter.name}}
+							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-3">
-							<strong>Nombre: </strong>
+						<div class="row">
+							<div class="col-3">
+								<strong>Apellido: </strong>
+							</div>
+							<div class="col-3">
+								{{currentWaiter.surname}}
+							</div>
 						</div>
-						<div class="col-3">
-							{{currentWaiter.name}}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-3">
-							<strong>Apellido: </strong>
-						</div>
-						<div class="col-3">
-							{{currentWaiter.surname}}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-3">
-							<strong>Documento: </strong>
-						</div>
-						<div class="col-3">
-							{{currentWaiter.document}}
+						<div class="row">
+							<div class="col-3">
+								<strong>Documento: </strong>
+							</div>
+							<div class="col-3">
+								{{currentWaiter.document}}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -70,7 +68,7 @@
 								<td class="anchura">
 									<transition name="fade">
 									<div v-show="ind == selected">
-										<button @click="getTables(item.id)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+										<button @click="getTables(item.id,item.date)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 											Mesas
 										</button>
 									</div>
@@ -92,7 +90,7 @@
 			</div>
 		</transition>
 
-		<Modal idModal="exampleModal" nameModal="Mesas de un turno">
+		<Modal idModal="exampleModal" :nameModal="currentDateTurn">
 			<template v-slot:contenido >
 				<transition name="fade">
 					<div v-if="tables.length>0">
@@ -161,6 +159,7 @@ export default {
 	data() {
 		return {
 			currentWaiter: null,
+			currentDateTurn: "",
 			turns: [],
 			tables: [],
 			filter: "",
@@ -192,7 +191,8 @@ export default {
 				}
 			);
 		},
-		getTables(id){
+		getTables(id,dateTurn){
+			this.currentDateTurn = `Mesas de turno ${dateTurn}`;
 			this.tables= [];
 			Facade.getTablesFromTurn(
 				id,
