@@ -54,6 +54,8 @@ export default {
 // Respecto a la autenticación propongo la siguiente estrategia para cuando empecemos :
 // -Asignar al nav las rutas de manera dinamica según el rol que se consulta en el login 
 // En las vistas se verifica la cookie de sesion para saber si redirecciona al login o muestra la vista determinaqda
-// Cada interaccion en la bd se valida desde el backend segun el rol del id que esta en la cookie
+// Cada ves que se verifique qu la cookie aun existe se crea nuevamente para conserver la sesión
+// La contraseña se puede cifrar en el frontend o en el backend con Bcript
+// Al igual que la verificación de su Hash
 </script>
 

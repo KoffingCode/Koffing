@@ -64,4 +64,13 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	// Obtener datos basicos de cada turno
+	static getTurnsFromTable(processThen,processCatch){
+		axios.get(`turnos`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 }

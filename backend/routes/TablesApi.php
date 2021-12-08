@@ -14,7 +14,9 @@ class TablesApi
 		self::getOfTable('/tablesOfTurn/{id}',"tablesOfTurn");
 		self::storeTable('/table',"storeTable");
 		self::updateTable('/table/{id}',"updateTable");
+		self::showDataTurns('/turnos',"showDataTurns");
 		self::destroyTable('/table/{id}',"destroyTable");
+		
 	}
 
 	private static function getOfTable($route,$processName)
@@ -32,6 +34,10 @@ class TablesApi
 	private static function destroyTable($route,$processName)
 	{
 		return Route::delete($route,[TableController::class,$processName]);
+	}
+	private static function showDataTurns($route,$processName)
+	{
+		return Route::get($route,[TableController::class,$processName]);
 	}
 
 }

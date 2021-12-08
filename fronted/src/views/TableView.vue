@@ -162,7 +162,6 @@ export default {
 		Verificar
 	},
 	created() {
-		this.getTablesData();
 		this.getTurnsData();
 	},
 	data() {
@@ -183,7 +182,6 @@ export default {
 	},
 	methods:{
 		getTablesData(){
-			this.status = "sending";
 			Facade.getTablesData(
 				response =>{
 					console.log(response.data);
@@ -197,18 +195,22 @@ export default {
 			)
 		},
 		getTurnsData(){
-
-
-			this.turnsData = [
-				{
-					id:1,
-					label: "Fecha - Inicio - Fin"
+			this.status = "sending";
+			Facade.getTurnsFromTable(
+				response =>{
+					console.log(response.data);
+					response.data.forEach(element => {
+						this.turnsData.push({
+							id: element.id,
+							label: `${element.date} de ${element.startingHour} a ${element.endingHour}`
+						});
+					});
+					this.getTablesData();
 				},
-				{
-					id:2,
-					label: "Fecha - Inicio - Fin"
+				error =>{
+					console.log(error);
 				}
-			]
+			);
 		},
 		sendTableData(){
 			if(this.check()){

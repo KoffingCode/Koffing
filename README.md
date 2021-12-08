@@ -18,6 +18,7 @@
 | 2/12/2021  | Se completaron las validaciones básicas del formulario, se completaron las funcionalidades de CRUD en la vista de mesas y se agregaron algunas mejoras visuales como efectos de transición. | Se hará preparativos por medio de los controladores que seran usados para la consulta de datos personales de un mesero con sus respectivos turnos y mesas asignadas, Se hará uso de una query específica que consulta los turnos que hay actualmente relacionados para establecer la relación entre mesas y turnos | queda pendiente la creacion de los endpoints respecto a los turnos y meseros |
 | 4/12/2021  | Se hizo una mejora en la fachada de backend ahora enfocada en una api getway, se agregaron validaciones en las respuestas por parte del servidor | Crear las tablas en la vista de consultas por parte del mesero | Había un error con el nombre de la migración de la tabla pivote que impedía consultas a través de ella. |
 | 5/12/2021  | Se hizo el ajuste con la tabla pivote para que las consultas por parte del mesero se pudieran realizar | Agregar datos personales basicos a la vista de consultas por parte del mesero, consultas a partir del numero de documento pasado por props a la vista | |
+| 8/12/2021  | Se hicieron mejoras gráficas en la vista de consultas del mesero | Crear carga de turnos en la vista de mesas para asignar las relaciones entre mesa y turno | |
 
 ------------
 
