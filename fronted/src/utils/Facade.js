@@ -103,7 +103,7 @@ export default class Facade {
 
 	// Eliminar Turno
 	static deleteTurn(id,processThen,processCatch){
-		axios.put(`turn/${id}`).then((response) => {
+		axios.delete(`turn/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);

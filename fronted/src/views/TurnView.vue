@@ -80,7 +80,6 @@
 				<table  class="table table-striped table-dark text-center">
 					<thead class="header">
 						<tr>
-							<th scope="col">#</th>
 							<th scope="col">Tipo</th>
 							<th scope="col">Fecha</th>
 							<th scope="col">Hora Incio</th>
@@ -91,7 +90,6 @@
 					<transition-group name="list" tag="tbody">
 						<tr v-for="(item,ind) of fullData.filter(x=>filterData(x,filter))" 
 							@mouseover="selection(ind)" name="list" :key="ind">
-							<th scope="row">{{item.id}}</th>
 							<td>{{item.type}}</td>
 							<td>{{item.date}}</td>
 							<td>{{item.startingHour}}</td>
@@ -162,6 +160,7 @@ export default {
 					console.log(response.data);
 					this.fullData = response.data;
 					this.status = "finish";
+					console.log(response.data);
 				},
 				error =>{
 					console.log(error);
@@ -180,10 +179,11 @@ export default {
 						turn,
 						response =>{
 							this.okMessage("Turno almacenado correctamente");
-							console.log(response.data);
+							this.data.id = this.idToUpdate;
 							this.fullData.push(this.data);
 							this.data = {};
-							this.status = "ok";
+							this.getTurnsData();
+							console.log(response.data);
 						},
 						error =>{
 							console.log(error.data);
@@ -191,6 +191,7 @@ export default {
 						}
 					);
 				}else{
+					console.log(this.idToUpdate);
 					Facade.updateTurn(
 						turn,
 						this.idToUpdate,
@@ -275,6 +276,7 @@ export default {
 			this.data = Object.assign({}, item);
 			this.update = true;
 			this.idToUpdate = item.id;
+			console.log(this.fullData);
 		},
 		cancelUpdate(){
 			this.update = false;
