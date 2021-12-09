@@ -55,7 +55,8 @@ class TableController extends Controller
 	public static function storeTable(Request $request,Exception $exception)
 	{
 		Table::create($request->all());
-		return self::checkResponse($request->all(),$exception);
+		$nuevo = Table::latest()->first();
+		return self::checkResponse($nuevo,$exception);
 	}
 
 	public static function updateTable(Request $request,$id,Exception $exception)

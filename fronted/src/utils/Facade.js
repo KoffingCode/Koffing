@@ -31,7 +31,7 @@ export default class Facade {
 
 	// Eliminar Mesa
 	static deleteTable(id,processThen,processCatch){
-		axios.put(`table/${id}`).then((response) => {
+		axios.delete(`table/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);
@@ -104,6 +104,38 @@ export default class Facade {
 	// Eliminar Turno
 	static deleteTurn(id,processThen,processCatch){
 		axios.delete(`turn/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	getWaiters(processThen,processCatch){
+		axios.get(`/waiters`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	storeWaiter(waiter,processThen,processCatch){
+		axios.post(`/waiters`,waiter).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	updateWaiter(waiter,id,processThen,processCatch) {
+		axios.put(`/waiters/${id}`,waiter).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	deleteWaiter(id,processThen,processCatch) {
+		axios.delete(`/waiters/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);

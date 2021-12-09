@@ -26,7 +26,7 @@ export default {
 						name: 'Home',
 						params: {
 							test: 'hello there',
-							test2: 'dfdf' 
+							test2: 'dfdf'
 						},
 					},
 				},
@@ -37,8 +37,10 @@ export default {
 				{
 					"name":"Mesas",
 					"url":"/admin/mesas"
-				},
+				}/*,
 				{
+					"name": "Meseros",
+					"url": "/admin/meseros",
 					"name":"Consultas",
 					"url":{
 						patch:"/mesero/consultas",
@@ -47,9 +49,10 @@ export default {
 							docWaiter:"1234"
 						}
 					}
-				},
-				{
-					"name":"Acerca de ",
+				}*/
+				,{
+					
+					"name":"Acerca",
 					"url":"/admin/acerca"
 				}
 			],

@@ -3,22 +3,18 @@
 		<div class="row mt-3">
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="number" class="col-sm-2 col-form-label">Número: </label>
+					<label for="name" class="col-sm-2 col-form-label">Nombres: </label>
 					<div class="col-sm-10">
-						<input @click="setNumberTable" v-model="data.number" type="number" class="form-control" id="number">
+						<input @click="setName" v-model="data.name" type="text" class="form-control" id="name">
 					</div>
 				</div>
 			</div>
 
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">Estado: </label>
+					<label for="surname" class="col-sm-2 col-form-label">Apellidos: </label>
 					<div class="col-sm-10">
-						<select v-model="data.state" class="form-select" aria-label="Default select example" id="inputEmail3">
-							<option value="free">Disponible</option>
-							<option value="reserved">Reservada</option>
-							<option value="occupied">Ocupada</option>
-						</select>
+						<input @click="setSurname" v-model="data.surname" type="text" class="form-control" id="surname">
 					</div>
 				</div>
 			</div>
@@ -27,25 +23,22 @@
 		<div class="row mt-3">
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="capacity" class="col-sm-2 col-form-label">Capacidad: </label>
+					<label for="documentType" class="col-sm-2 col-form-label">Tipo de documento: </label>
 					<div class="col-sm-10">
-						<input @input="data.capacity = parseInt(data.capacity) <= 1 ? 2 : data.capacity" 
-						v-model="data.capacity" type="number" class="form-control" id="capacity">
+						<select v-model="data.documentType" class="form-select" aria-label="Default select example" id="documentType" >
+							<option value="C.C">C.C.</option>
+							<option value="T.I">T.I.</option>
+							<option value="C.E">C.E.</option>
+						</select>
 					</div>
 				</div>
 			</div>
 
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="type" class="col-sm-2 col-form-label">Tipo: </label>
+					<label for="document" class="col-sm-2 col-form-label">Documento: </label>
 					<div class="col-sm-10">
-						<select v-model="data.type" class="form-select" aria-label="Default select example" id="type" >
-							<option value="estandar">Estandar</option>
-							<option value="barra">Barra</option>
-							<option value="exterior">Exterior</option>
-							<option value="infantil">Infantil</option>
-							<option value="familiar">Familiar</option>
-						</select>
+						<input @click="setDocument" v-model="data.document" type="text" class="form-control" id="document">
 					</div>
 				</div>
 			</div>
@@ -54,13 +47,47 @@
 		<div class="row mt-3">
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="type" class="col-sm-2 col-form-label">Turno: </label>
+					<label for="address" class="col-sm-2 col-form-label">Dirección: </label>
 					<div class="col-sm-10">
-						<select v-model="data.turn_id" class="form-select" aria-label="Default select example" id="type">
-							<option v-for="(item,k) in turnsData" :key="k" :value="item.id">
-								{{item.label}}
-							</option>
-						</select>
+						<input @click="setAddress" v-model="data.address" type="text" class="form-control" id="address">
+					</div>
+				</div>
+			</div>
+
+            <div class="col-6">
+				<div class="row mb-3">
+					<label for="neighbourhood" class="col-sm-2 col-form-label">Barrio: </label>
+					<div class="col-sm-10">
+						<input @click="setNeighbourhood" v-model="data.neighbourhood" type="text" class="form-control" id="neighbourhood">
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <div class="row mt-3">
+			<div class="col-4">
+				<div class="row mb-3">
+					<label for="city" class="col-sm-2 col-form-label">Ciudad: </label>
+					<div class="col-sm-10">
+						<input @click="setCity" v-model="data.city" type="text" class="form-control" id="city">
+					</div>
+				</div>
+			</div>
+
+            <div class="col-4">
+				<div class="row mb-3">
+					<label for="phone" class="col-sm-2 col-form-label">Teléfono: </label>
+					<div class="col-sm-10">
+						<input @click="setPhone" v-model="data.phone" type="text" class="form-control" id="phone">
+					</div>
+				</div>
+			</div>
+
+            <div class="col-4">
+				<div class="row mb-3">
+					<label for="academicLevel" class="col-sm-2 col-form-label">Nivel académico: </label>
+					<div class="col-sm-10">
+						<input @click="setAcademicLevel" v-model="data.academicLevel" type="text" class="form-control" id="academicLevel">
 					</div>
 				</div>
 			</div>
@@ -71,7 +98,7 @@
 		<div class="row mt-1">
 			<div class="col-12 d-flex justify-content-center">
 				<div class="mb-3">
-					<button @click="sendTableData" :class="stateButton()">
+					<button @click="sendWaiterData" :class="stateButton()">
 						{{txtButton()}} 
 						<i class="bi bi-save2-fill"></i>
 					</button>
@@ -102,23 +129,32 @@
 				<table  class="table table-striped table-dark text-center">
 					<thead class="header">
 						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Estado</th>
-							<th scope="col">Capacidad</th>
-							<th scope="col">Tipo</th>
-							<th scope="col">Turno</th>
-							<th scope="col">Opciones</th>
+							<th scope="col">Id</th>
+							<th scope="col">Nombres</th>
+							<th scope="col">Apellidos</th>
+							<th scope="col">Tipo Documento</th>
+							<th scope="col">Documento</th>
+							<th scope="col">Dirección</th>
+							<th scope="col">Barrio</th>
+							<th scope="col">Ciudad</th>
+							<th scope="col">Teléfono</th>
+							<th scope="col">Nivel Académico</th>
 						</tr>
 					</thead>
 					<transition-group name="list" tag="tbody">
 						<tr v-for="(item,ind) of fullData.filter(x=>filterData(x,filter))" 
 							@mouseover="selection(ind)" name="list" :key="ind">
 							
-							<th scope="row">{{item.number}}</th>
-							<td>{{item.state}}</td>
-							<td>{{item.capacity}}</td>
-							<td>{{item.type}}</td>
-							<td>{{item.turn_id}}</td>
+							<th scope="row">{{item.id}}</th>
+							<td>{{item.name}}</td>
+							<td>{{item.surname}}</td>
+							<td>{{item.documentType}}</td>
+							<td>{{item.document}}</td>
+							<td>{{item.address}}</td>
+							<td>{{item.neighbourhood}}</td>
+							<td>{{item.city}}</td>
+							<td>{{item.phone}}</td>
+							<td>{{item.academicLevel}}</td>
 
 							<td class="anchura">
 								<transition name="fade">
@@ -151,18 +187,18 @@
 <script>
 
 import Facade from '@/utils/Facade';
-import Table from '@/model/Table';
+import Waiter from '@/model/Waiter';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
 
 export default {
-	name: "Create",
+	name: "AdminWaiters",
 	components: {
 		Modal,
 		Verificar
 	},
 	created() {
-		this.getTurnsData();
+		this.getWaiters();
 	},
 	data() {
 		return {
@@ -177,69 +213,53 @@ export default {
 			selected: -1,
 			update: false,
 			idToUpdate: "",
-			status: ""
+			status: "",
+			facade: new Facade()
 		}
 	},
 	methods:{
-		getTablesData(){
-			Facade.getTablesData(
-				response =>{
+		getWaiters(){
+			this.status = "retrieving";
+			this.facade.getWaiters(
+				response => {
 					console.log(response.data);
 					this.fullData = response.data;
 					this.status = "finish";
 				},
-				error =>{
+				error => {
 					console.log(error);
 					this.status = "finish";
 				}
 			)
 		},
-		getTurnsData(){
-			this.status = "sending";
-			Facade.getTurnsFromTable(
-				response =>{
-					console.log(response.data);
-					response.data.forEach(element => {
-						this.turnsData.push({
-							id: element.id,
-							label: `${element.date} de ${element.startingHour} a ${element.endingHour}`
-						});
-					});
-					this.getTablesData();
-				},
-				error =>{
-					console.log(error);
-				}
-			);
-		},
-		sendTableData(){
+		sendWaiterData(){
 			if(this.check()){
 				this.status = "sending";
-				let table = new Table(this.data);
+				this.data.user_id = 1;
+				let waiter = new Waiter(this.data);
 				this.send = false;
 
 				if(this.update === false){
-					Facade.storeTable(
-						table,
-						response =>{
-							this.okMessage("Mesa almacenada correctamente");
+					this.facade.storeWaiter(
+						waiter,
+						response => {
+							this.okMessage("Mesero almacenado correctamente");
 							console.log(response.data);
-							this.fullData.push(response.data);
-							this.status = "finish";
+							this.fullData.push(this.data);
 							this.data = {};
-							//this.getTablesData();
+							this.status = "ok";
 						},
-						error =>{
+						error => {
 							console.log(error.data);
 							this.status = "finish";
 						}
 					);
-				}else{
-					Facade.updateTable(
-						table,
+				} else {
+					this.facade.updateWaiter(
+						waiter,
 						this.idToUpdate,
-						response =>{
-							this.okMessage("Mesa actualizada correctamente");
+						response => {
+							this.okMessage("Mesero actualizado correctamente");
 							this.update = false;
 							console.log(response.data);
 							let newObj = this.fullData.find(x => x.id == this.idToUpdate);
@@ -248,7 +268,7 @@ export default {
 							this.data = {};
 							this.status = "ok";
 						},
-						error =>{
+						error => {
 							console.log(error.data);
 							this.status = "finish";
 						}
@@ -259,22 +279,22 @@ export default {
 		deleteRow(id){
 			console.log(id);
 			this.$swal.fire({
-				title: '¿Desea eliminar este registro?',
+				title: '¿Desea eliminar este mesero?',
 				icon: 'question',
 				showDenyButton: true,
 				confirmButtonText: 'SI',
 				denyButtonText: `NO`,
 			}).then((result) => {
 				if (result.isConfirmed) {
-					this.status = "sending";
-					Facade.deleteTable(
+					this.status = "deleting";
+					this.facade.deleteWaiter(
 						id,
-						response =>{
+						response => {
 							console.log(response.data);
 							this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
 							this.status = "finish";
 						},
-						error =>{
+						error => {
 							console.log(error.data);
 							this.status = "finish";
 						}
@@ -286,23 +306,32 @@ export default {
 		},
 		check(){
 			this.errors = [];
-			if(this.numbersTables.includes(this.data.number) && this.update === false){
-				this.errors.push("Esta mesa ya se ha almacenado antes");
+			if(this.data.name == undefined || this.data.name == "") {
+				this.errors.push("El nombre es requerido");
 			}
-			if(this.data.number == undefined || this.data.number === ""){
-				this.errors.push("El numero de mesa requerido");
+			if(this.data.surname == undefined || this.data.surname == "") {
+				this.errors.push("El apellido es requerido");
 			}
-			if(this.data.state == undefined){
-				this.errors.push("El estado de la mesa requerido");
+			if(this.data.documentType == undefined || this.data.documentType == "") {
+				this.errors.push("El tipo de documento es requerido");
 			}
-			if(this.data.capacity == undefined || this.data.capacity === ""){
-				this.errors.push("El tamaño de la mesa requerido");
+			if(this.data.document == undefined || this.data.document == "") {
+				this.errors.push("El documento es requerido");
 			}
-			if(this.data.type == undefined){
-				this.errors.push("El tipo de mesa requerido");
+			if(this.data.address == undefined || this.data.address == "") {
+				this.errors.push("La dirección es requerida");
 			}
-			if(this.data.turn_id == undefined){
-				this.errors.push("El turno en que se atiende la mesa es requerido");
+			if(this.data.neighbourhood == undefined || this.data.neighbourhood == "") {
+				this.erros.push("El barrio es requerido");
+			}
+			if(this.data.city == undefined || this.data.city == "") {
+				this.errors.push("La ciudad es requerida");
+			}
+			if(this.data.phone == undefined || this.data.phone === "") {
+				this.errors.push("El teléfono es requerido");
+			}
+			if(this.data.academicLevel == undefined || this.data.academicLevel === "") {
+				this.errors.push("El nivel académico es requerido");
 			}
 			if (this.errors.length > 0) {
 				return false;
@@ -310,19 +339,10 @@ export default {
 			console.log(this.errors);
 			return true;
 		},
-		setNumberTable(){
-			let max = 1;
-			this.fullData .forEach(item =>{
-				this.numbersTables.push(parseInt(item.number));
-			});
-			this.numbersTables.forEach(item =>{
-				if(item>max){
-					max = item;
-				}
-			});
-			this.data.number = max + 1;
+		setName() {
+			console.log(this.data);
 		},
-		okMessage(text){
+		okMessage(text) {
 			this.$swal.fire({
 				position: 'center',
 				icon: 'success',
@@ -356,7 +376,7 @@ export default {
 			return this.update === false ? "btn btn-primary px-5":"btn btn-success px-5 mx-2";
 		},
 		txtButton(){
-			return this.update === false ? "Almacenar Mesa":"Guardar Cambios";
+			return this.update === false ? "Registrar Mesero":"Guardar Cambios";
 		}
 	}
 }

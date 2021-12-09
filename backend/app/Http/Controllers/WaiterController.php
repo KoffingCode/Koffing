@@ -46,9 +46,9 @@ class WaiterController extends Controller
      * @param  \App\Models\Waiter  $waiter
      * @return \Illuminate\Http\Response
      */
-    public function show(string $waiterDocument)
+    public function show(string $waiterId)
     {
-        return response()->json(Waiter::find([$waiterDocument])->first());
+        return response()->json(Waiter::find([$waiterId])->first());
     }
 
     /**
@@ -57,7 +57,7 @@ class WaiterController extends Controller
      * @param  \App\Models\Waiter  $waiter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Waiter $waiterDocument)
+    public function edit(Waiter $waiterId)
     {
         //
     }
@@ -69,10 +69,10 @@ class WaiterController extends Controller
      * @param  \App\Models\Waiter  $waiter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, string $waiterDocument)
+    public function update(Request $request, string $waiterId)
     {
-        Waiter::find([$waiterDocument])->first()->update($request->all());
-        return response()->json(Waiter::find([$waiterDocument])->first());
+        Waiter::find([$waiterId])->first()->update($request->all());
+        return response()->json(Waiter::find([$waiterId])->first());
     }
 
     /**
@@ -81,9 +81,9 @@ class WaiterController extends Controller
      * @param  \App\Models\Waiter  $waiter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $waiterDocument)
+    public function destroy(string $waiterId)
     {
-        $waiter = Waiter::find([$waiterDocument])->first();
+        $waiter = Waiter::find([$waiterId])->first();
         $waiter->delete();
         return response()->json($waiter);
     }

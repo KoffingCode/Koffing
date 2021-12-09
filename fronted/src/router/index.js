@@ -24,6 +24,11 @@ const routes = [
         component: () => import('../views/TableView.vue')
 	},
     {
+        path: '/admin/meseros',
+        name: 'WaiterAdminView',
+        component: () => import('../views/WaiterAdminView')
+    },
+    {
         path: '/admin/turnos',
         name: 'TurnView',
         component: () =>import('../views/TurnView.vue')
