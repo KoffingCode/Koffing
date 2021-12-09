@@ -17,8 +17,8 @@ class CreateTurnsTable extends Migration
             $table->id();
 			$table->enum('type', ['laboral', 'inactivo']);
 			$table->date('date')->default(now());
-			$table->time('startingHour');
-			$table->time('endingHour');
+			$table->time('startingHour')->default('22:20:58');
+			$table->time('endingHour')->default('22:20:58');
             $table->timestamps();
         });
     }
