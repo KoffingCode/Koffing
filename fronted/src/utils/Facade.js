@@ -73,4 +73,40 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+	// T U R N O S
+	// Obtener todos los turnos
+	static getTurnsData(processThen,processCatch){
+		axios.get(`/turns`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	// Almacenar Turno
+	static storeTurn(turn,processThen,processCatch){
+		axios.post(`turn`,turn).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	// Actualizar Turno
+	static updateTurn(turn,id,processThen,processCatch){
+		axios.put(`turn/${id}`,turn).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	// Eliminar Turno
+	static deleteTurn(id,processThen,processCatch){
+		axios.put(`turn/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 }

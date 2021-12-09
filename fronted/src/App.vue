@@ -31,6 +31,10 @@ export default {
 					},
 				},
 				{
+					"name":"Turnos",
+					"url":"/admin/turnos"
+				},
+				{
 					"name":"Mesas",
 					"url":"/admin/mesas"
 				},

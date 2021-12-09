@@ -127,6 +127,7 @@
 
 <script>
 //import Verificar from '@/components/Verificar.vue';
+import Facade from '@/utils/Facade';
 import Turn from '@/model/Turn';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
@@ -156,52 +157,59 @@ export default {
 	},
 	methods:{
 		getTurnsData(){
-			this.status = "sending";
-			this.axios.get(`/turns`).then((response) => {
-				console.log(response.data);
-				this.fullData = response.data;
-				this.status = "finish";
-			}).catch((error) => {
-				console.log(error);
-				this.status = "finish";
-			})
+			Facade.getTurnsData(
+				response =>{
+					console.log(response.data);
+					this.fullData = response.data;
+					this.status = "finish";
+				},
+				error =>{
+					console.log(error);
+					this.status = "finish";
+				}
+			)
 		},
 		sendTurnData(){
 			if(this.check()){
 				this.status = "sending";
 				let turn = new Turn(this.data);
-				console.log(turn);
 				this.send = false;
 
 				if(this.update === false){
-					this.axios.post(`turn`,turn)
-					.then(response => {
-						this.okMessage("Turno almacenado correctamente");
-						console.log(response.data);
-						this.fullData.push(this.data);
-						this.data = {};
-						this.status = "ok";
-					}).catch(error => {
-						console.log(error.data);
-						this.status = "finish";
-					});
+					Facade.storeTurn(
+						turn,
+						response =>{
+							this.okMessage("Turno almacenado correctamente");
+							console.log(response.data);
+							this.fullData.push(this.data);
+							this.data = {};
+							this.status = "ok";
+						},
+						error =>{
+							console.log(error.data);
+							this.status = "finish";
+						}
+					);
 				}else{
-					this.axios.put(`turn/${this.idToUpdate}`,turn)
-					.then(response => {
-						this.okMessage("Turno actualizado correctamente");
-						this.update = false;
-						console.log(response.data);
-						let newObj = this.fullData.find(x => x.id == this.idToUpdate);
-						let indObj = this.fullData.indexOf(newObj);
-						this.fullData[indObj] = Object.assign({}, this.data);
-						this.data = {};
-						this.status = "ok";
-					}).catch(error => {
-						console.log(error.data);
-						this.status = "finish";
-					});
+					Facade.updateTurn(
+						turn,
+						this.idToUpdate,
+						response =>{
+							this.okMessage("Turno actualizado correctamente");
+							this.update = false;
+							console.log(response.data);
+							let newObj = this.fullData.find(x => x.id == this.idToUpdate);
+							let indObj = this.fullData.indexOf(newObj);
+							this.fullData[indObj] = Object.assign({}, this.data);
+							this.data = {};
+							this.status = "ok";
+						},
+						error =>{
+							console.log(error.data);
+							this.status = "finish";
+						}
+					);
 				}
-				console.log(this.data);
 			}
 		},
 		deleteRow(id){
@@ -215,15 +223,18 @@ export default {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					this.status = "sending";
-					this.axios.delete(`turn/${id}`)
-					.then(response => {
-						console.log(response.data);
-						this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
-						this.status = "finish";
-					}).catch(error => {
-						console.log(error.data);
-						this.status = "finish";
-					});
+					Facade.deleteTurn(
+						id,
+						response =>{
+							console.log(response.data);
+							this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
+							this.status = "finish";
+						},
+						error =>{
+							console.log(error.data);
+							this.status = "finish";
+						}
+					); 
 				} else if (result.isDenied) {
 					//this.$swal.fire('Changes are not saved', '', 'info')
 				}
