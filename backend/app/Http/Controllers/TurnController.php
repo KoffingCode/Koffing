@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Turn;
+use App\Models\Waiter;
+
 class TurnController extends Controller
 {
     //https://stackoverflow.com/questions/38172857/how-to-select-specific-columns-in-laravel-eloquent
@@ -26,9 +28,14 @@ class TurnController extends Controller
      */
     public function storeTurn(Request $request, Exception $exception)
     {
+
         Turn::create($request->all());
+        $id_waiter = $request->all()['id_waiter'];
+        $ultimo = Turn::latest()->first();
+        $ultimo->waiters()->attach($id_waiter);
         // return self::checkResponse($request->all(),$exception);
         return $request->all();
+        // return $ultimo->waiters()->get();
 
     }
 
@@ -92,4 +99,6 @@ class TurnController extends Controller
             return response()->json(['error'=>"No turn found"]);
         }
     }
+
+    
 }
