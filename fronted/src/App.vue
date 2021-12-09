@@ -47,6 +47,10 @@ export default {
 							docWaiter:"1234"
 						}
 					}
+				},
+				{
+					"name":"Acerca de ",
+					"url":"/admin/acerca"
 				}
 			],
 			rutasMesero:[]

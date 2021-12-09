@@ -33,7 +33,11 @@ const routes = [
         name: 'Consultas',
 		props: true,
         component: () => import('../views/QuerysWaiter.vue')
-	}
+	},{
+        path: '/admin/acerca',
+        name: 'AcercaView',
+        component: () => import('../views/AcercaView.vue')
+    }
 ]
 
 const router = createRouter({
