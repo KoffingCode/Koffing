@@ -13,7 +13,6 @@
 
 		</ul>
 		<span class="navbar-text">
-			Registrarse
 		</span>
 	</div>
   </div>
@@ -27,10 +26,8 @@ export default {
 		routes: {
 			type: Array,
 		}
-	},
+	}
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

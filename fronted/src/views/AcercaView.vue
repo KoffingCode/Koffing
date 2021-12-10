@@ -73,6 +73,7 @@
 	<div  class="col-12 d-flex justify-content-center">
         <img alt="logo" src="../assets/ER.png" class="img">
 	</div>
+    <br>
 </div>
 </template>
 
