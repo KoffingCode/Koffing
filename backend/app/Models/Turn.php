@@ -23,6 +23,6 @@ class Turn extends Model
 
     public function tables()
     {
-        return $this->belongsToMany(Table::class);
+        return $this->hasMany(Table::class);
     }
 }
