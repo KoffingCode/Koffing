@@ -224,9 +224,10 @@ export default {
 						response =>{
 							this.okMessage("Mesa almacenada correctamente");
 							console.log(response.data);
-							this.fullData.push(this.data);
+							this.fullData.push(response.data);
+							this.status = "finish";
 							this.data = {};
-							this.getTablesData();
+							//this.getTablesData();
 						},
 						error =>{
 							console.log(error.data);
