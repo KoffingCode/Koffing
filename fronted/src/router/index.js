@@ -22,7 +22,12 @@ const routes = [
         path: '/admin/mesas',
         name: 'TableView',
         component: () => import('../views/TableView.vue')
-	}
+	},
+    {
+        path: '/admin/meseros',
+        name: 'WaiterAdminView',
+        component: () => import('../views/WaiterAdminView')
+    }
 ]
 
 const router = createRouter({

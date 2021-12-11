@@ -29,7 +29,7 @@ class WaitersApi
 
 	public static function getWaiter()
 	{
-		return Route::get('waiters/{waiterDocument}', [WaiterController::class, 'show']);
+		return Route::get('waiters/{waiterId}', [WaiterController::class, 'show']);
 	}
 
 	public static function postWaiter()
@@ -39,12 +39,12 @@ class WaitersApi
 
 	public static function updateWaiter()
 	{
-		return Route::put('waiters/{waiterDocument}', [WaiterController::class, 'update']);
+		return Route::put('waiters/{waiterId}', [WaiterController::class, 'update']);
 	}
 
 	public static function deleteWaiter()
 	{
-		return Route::delete('waiters/{waiterDocument}', [WaiterController::class, 'destroy']);
+		return Route::delete('waiters/{waiterId}', [WaiterController::class, 'destroy']);
 	}
 	//Route
 	/*

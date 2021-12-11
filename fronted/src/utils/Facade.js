@@ -35,4 +35,36 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	getWaiters(processThen,processCatch){
+		axios.get(`/waiters`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	storeWaiter(waiter,processThen,processCatch){
+		axios.post(`/waiters`,waiter).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	updateWaiter(waiter,id,processThen,processCatch) {
+		axios.put(`/waiters/${id}`,waiter).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	deleteWaiter(id,processThen,processCatch) {
+		axios.delete(`/waiters/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 }
