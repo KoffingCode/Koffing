@@ -39,7 +39,7 @@ const routes = [
 		props: true,
         component: () => import('../views/QuerysWaiter.vue')
 	},{
-        path: '/admin/acerca',
+        path: '/acerca',
         name: 'AcercaView',
         component: () => import('../views/AcercaView.vue')
     }

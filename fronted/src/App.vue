@@ -20,17 +20,6 @@ export default {
 			ruta: "/Usuario/1/edit",
 			rutasAdmin:[
 				{
-					"name":"Home",
-					"url":{
-						path: "/",
-						name: 'Home',
-						params: {
-							test: 'hello there',
-							test2: 'dfdf'
-						},
-					},
-				},
-				{
 					"name":"Turnos",
 					"url":"/admin/turnos"
 				},
@@ -50,11 +39,6 @@ export default {
 						}
 					}
 				}*/
-				,{
-					
-					"name":"Acerca",
-					"url":"/admin/acerca"
-				}
 			],
 			rutasMesero:[]
 		}
