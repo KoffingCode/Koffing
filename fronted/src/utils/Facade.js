@@ -31,7 +31,7 @@ export default class Facade {
 
 	// Eliminar Mesa
 	static deleteTable(id,processThen,processCatch){
-		axios.put(`table/${id}`).then((response) => {
+		axios.delete(`table/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);

@@ -226,7 +226,7 @@ export default {
 							console.log(response.data);
 							this.fullData.push(this.data);
 							this.data = {};
-							this.status = "ok";
+							this.getTablesData();
 						},
 						error =>{
 							console.log(error.data);
