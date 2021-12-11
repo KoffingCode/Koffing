@@ -24,12 +24,11 @@ const routes = [
         component: () => import('../views/TableView.vue')
 	},
     {
-<<<<<<< HEAD
         path: '/admin/meseros',
         name: 'WaiterAdminView',
         component: () => import('../views/WaiterAdminView')
-    }
-=======
+    },
+    {
         path: '/admin/turnos',
         name: 'TurnView',
         component: () =>import('../views/TurnView.vue')
@@ -40,7 +39,6 @@ const routes = [
 		props: true,
         component: () => import('../views/QuerysWaiter.vue')
 	}
->>>>>>> 58b4ae250df2769c897d629ca56a055fae9fc1d7
 ]
 
 const router = createRouter({

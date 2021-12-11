@@ -37,7 +37,7 @@ export default {
 				{
 					"name":"Mesas",
 					"url":"/admin/mesas"
-				},
+				}/*,
 				{
 					"name": "Meseros",
 					"url": "/admin/meseros",
@@ -49,7 +49,7 @@ export default {
 							docWaiter:"1234"
 						}
 					}
-				}
+				}*/
 			],
 			rutasMesero:[]
 		}
