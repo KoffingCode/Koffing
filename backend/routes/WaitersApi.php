@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 
 class WaitersApi
 {
-	public static function routesTable()
+	public static function routesWaiter()
 	{
-		WaitersApi::getWaiters();
-		WaitersApi::getWaiter();
-		WaitersApi::postWaiter();
-		WaitersApi::updateWaiter();
-		WaitersApi::deleteWaiter();
+		self::getWaiters();
+		self::getWaiter();
+		self::postWaiter();
+		self::updateWaiter();
+		self::deleteWaiter();
 	}
 
 	public static function getWaiters()

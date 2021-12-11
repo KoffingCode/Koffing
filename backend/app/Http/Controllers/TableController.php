@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Table;
+use App\Models\Turn;
 
 class TableController extends Controller
 {
@@ -22,6 +23,15 @@ class TableController extends Controller
 		$listado = [];
 		foreach (Table::all() as $usuario) {
 			array_push($listado,$usuario);
+		}
+		return self::checkResponse($listado,$exception);
+	}
+
+    public static function showDataTurns(Exception $exception)
+	{
+		$listado = [];
+		foreach (Turn::select('id','date','startingHour','endingHour')->get() as $turn) {
+			array_push($listado,$turn);
 		}
 		return self::checkResponse($listado,$exception);
 	}

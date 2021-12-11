@@ -22,6 +22,7 @@ export default {
 				{
 					"name":"Home",
 					"url":{
+						path: "/",
 						name: 'Home',
 						params: {
 							test: 'hello there',
@@ -30,12 +31,8 @@ export default {
 					},
 				},
 				{
-					"name":"Actualizar",
-					"url":"/Usuario/1/edit"
-				},
-				{
-					"name":"Crear",
-					"url":"/Usuario/Create"
+					"name":"Turnos",
+					"url":"/admin/turnos"
 				},
 				{
 					"name":"Mesas",
@@ -43,7 +40,15 @@ export default {
 				},
 				{
 					"name": "Meseros",
-					"url": "/admin/meseros"
+					"url": "/admin/meseros",
+					"name":"Consultas",
+					"url":{
+						patch:"/mesero/consultas",
+						name:"Consultas",
+						params: {
+							docWaiter:"1234"
+						}
+					}
 				}
 			],
 			rutasMesero:[]
@@ -55,6 +60,8 @@ export default {
 // Respecto a la autenticación propongo la siguiente estrategia para cuando empecemos :
 // -Asignar al nav las rutas de manera dinamica según el rol que se consulta en el login 
 // En las vistas se verifica la cookie de sesion para saber si redirecciona al login o muestra la vista determinaqda
-// Cada interaccion en la bd se valida desde el backend segun el rol del id que esta en la cookie
+// Cada ves que se verifique qu la cookie aun existe se crea nuevamente para conserver la sesión
+// La contraseña se puede cifrar en el frontend o en el backend con Bcript
+// Al igual que la verificación de su Hash
 </script>
 

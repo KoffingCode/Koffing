@@ -1,66 +1,44 @@
 <template>
-	<div class="TableView">
+	<div class="TurnView">
 		<div class="row mt-3">
-			<div class="col-6">
-				<div class="row mb-3">
-					<label for="number" class="col-sm-2 col-form-label">Número: </label>
-					<div class="col-sm-10">
-						<input @click="setNumberTable" v-model="data.number" type="number" class="form-control" id="number">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-6">
-				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-2 col-form-label">Estado: </label>
-					<div class="col-sm-10">
-						<select v-model="data.state" class="form-select" aria-label="Default select example" id="inputEmail3">
-							<option value="free">Disponible</option>
-							<option value="reserved">Reservada</option>
-							<option value="occupied">Ocupada</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row mt-3">
-			<div class="col-6">
-				<div class="row mb-3">
-					<label for="capacity" class="col-sm-2 col-form-label">Capacidad: </label>
-					<div class="col-sm-10">
-						<input @input="data.capacity = parseInt(data.capacity) <= 1 ? 2 : data.capacity" 
-						v-model="data.capacity" type="number" class="form-control" id="capacity">
-					</div>
-				</div>
-			</div>
-
 			<div class="col-6">
 				<div class="row mb-3">
 					<label for="type" class="col-sm-2 col-form-label">Tipo: </label>
 					<div class="col-sm-10">
-						<select v-model="data.type" class="form-select" aria-label="Default select example" id="type" >
-							<option value="estandar">Estandar</option>
-							<option value="barra">Barra</option>
-							<option value="exterior">Exterior</option>
-							<option value="infantil">Infantil</option>
-							<option value="familiar">Familiar</option>
+						<select v-model="data.type" class="form-select" aria-label="Default select example" id="type">
+							<option value="laboral">Laboral</option>
+							<option value="inactivo">Inactivo</option>
 						</select>
 					</div>
 				</div>
 			</div>
+			<div class="col-6">
+				<div class="row mb-3">
+					<label for="date" class="col-sm-2 col-form-label">Fecha: </label>
+					<div class="col-sm-10">
+						<input v-model="data.date" class="form-control" type="date" id="start" name="trip-start"
+                            min="2021-12-03" max="2024-12-31">
+					</div>
+				</div>
+			</div>
 		</div>
-
 		<div class="row mt-3">
 			<div class="col-6">
 				<div class="row mb-3">
-					<label for="type" class="col-sm-2 col-form-label">Turno: </label>
+					<label for="startingHour" class="col-sm-2 col-form-label">Hora de inicio </label>
 					<div class="col-sm-10">
-						<select v-model="data.turn_id" class="form-select" aria-label="Default select example" id="type">
-							<option v-for="(item,k) in turnsData" :key="k" :value="item.id">
-								{{item.label}}
-							</option>
-						</select>
+                        <input v-model="data.startingHour" class="form-control" type="time" id="appt" name="appt" step="2"
+                            min="08:00" max="18:00" required>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="row mb-3">
+					<label for="endingHour" class="col-sm-2 col-form-label">Hora Fin</label>
+					<div class="col-sm-10">
+						<input v-model="data.endingHour" class="form-control" type="time" id="appt" name="appt" step="2"
+                            min="08:00" max="18:00" required>
 					</div>
 				</div>
 			</div>
@@ -71,7 +49,7 @@
 		<div class="row mt-1">
 			<div class="col-12 d-flex justify-content-center">
 				<div class="mb-3">
-					<button @click="sendTableData" :class="stateButton()">
+					<button @click="sendTurnData" :class="stateButton()">
 						{{txtButton()}} 
 						<i class="bi bi-save2-fill"></i>
 					</button>
@@ -102,23 +80,20 @@
 				<table  class="table table-striped table-dark text-center">
 					<thead class="header">
 						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Estado</th>
-							<th scope="col">Capacidad</th>
 							<th scope="col">Tipo</th>
-							<th scope="col">Turno</th>
+							<th scope="col">Fecha</th>
+							<th scope="col">Hora Incio</th>
+							<th scope="col">Hora Fin</th>
 							<th scope="col">Opciones</th>
 						</tr>
 					</thead>
 					<transition-group name="list" tag="tbody">
 						<tr v-for="(item,ind) of fullData.filter(x=>filterData(x,filter))" 
 							@mouseover="selection(ind)" name="list" :key="ind">
-							
-							<th scope="row">{{item.number}}</th>
-							<td>{{item.state}}</td>
-							<td>{{item.capacity}}</td>
 							<td>{{item.type}}</td>
-							<td>{{item.turn_id}}</td>
+							<td>{{item.date}}</td>
+							<td>{{item.startingHour}}</td>
+							<td>{{item.endingHour}}</td>
 
 							<td class="anchura">
 								<transition name="fade">
@@ -149,9 +124,9 @@
 </template>
 
 <script>
-
+//import Verificar from '@/components/Verificar.vue';
 import Facade from '@/utils/Facade';
-import Table from '@/model/Table';
+import Turn from '@/model/Turn';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
 
@@ -167,10 +142,8 @@ export default {
 	data() {
 		return {
 			fullData: [],
-			turnsData: [],
 			data: {},
 			errors: [],
-			numbersTables: [],
 			filter: "",
 			btnText: "",
 			send: false,
@@ -181,12 +154,13 @@ export default {
 		}
 	},
 	methods:{
-		getTablesData(){
-			Facade.getTablesData(
+		getTurnsData(){
+			Facade.getTurnsData(
 				response =>{
 					console.log(response.data);
 					this.fullData = response.data;
 					this.status = "finish";
+					console.log(response.data);
 				},
 				error =>{
 					console.log(error);
@@ -194,39 +168,22 @@ export default {
 				}
 			)
 		},
-		getTurnsData(){
-			this.status = "sending";
-			Facade.getTurnsFromTable(
-				response =>{
-					console.log(response.data);
-					response.data.forEach(element => {
-						this.turnsData.push({
-							id: element.id,
-							label: `${element.date} de ${element.startingHour} a ${element.endingHour}`
-						});
-					});
-					this.getTablesData();
-				},
-				error =>{
-					console.log(error);
-				}
-			);
-		},
-		sendTableData(){
+		sendTurnData(){
 			if(this.check()){
 				this.status = "sending";
-				let table = new Table(this.data);
+				let turn = new Turn(this.data);
 				this.send = false;
 
 				if(this.update === false){
-					Facade.storeTable(
-						table,
+					Facade.storeTurn(
+						turn,
 						response =>{
-							this.okMessage("Mesa almacenada correctamente");
-							console.log(response.data);
+							this.okMessage("Turno almacenado correctamente");
+							this.data.id = this.idToUpdate;
 							this.fullData.push(this.data);
 							this.data = {};
-							this.getTablesData();
+							this.getTurnsData();
+							console.log(response.data);
 						},
 						error =>{
 							console.log(error.data);
@@ -234,11 +191,12 @@ export default {
 						}
 					);
 				}else{
-					Facade.updateTable(
-						table,
+					console.log(this.idToUpdate);
+					Facade.updateTurn(
+						turn,
 						this.idToUpdate,
 						response =>{
-							this.okMessage("Mesa actualizada correctamente");
+							this.okMessage("Turno actualizado correctamente");
 							this.update = false;
 							console.log(response.data);
 							let newObj = this.fullData.find(x => x.id == this.idToUpdate);
@@ -258,7 +216,7 @@ export default {
 		deleteRow(id){
 			console.log(id);
 			this.$swal.fire({
-				title: '¿Desea eliminar este registro?',
+				title: '¿Desea eliminar este Turno?',
 				icon: 'question',
 				showDenyButton: true,
 				confirmButtonText: 'SI',
@@ -266,7 +224,7 @@ export default {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					this.status = "sending";
-					Facade.deleteTable(
+					Facade.deleteTurn(
 						id,
 						response =>{
 							console.log(response.data);
@@ -285,41 +243,25 @@ export default {
 		},
 		check(){
 			this.errors = [];
-			if(this.numbersTables.includes(this.data.number) && this.update === false){
-				this.errors.push("Esta mesa ya se ha almacenado antes");
-			}
-			if(this.data.number == undefined || this.data.number === ""){
-				this.errors.push("El numero de mesa requerido");
-			}
-			if(this.data.state == undefined){
-				this.errors.push("El estado de la mesa requerido");
-			}
-			if(this.data.capacity == undefined || this.data.capacity === ""){
-				this.errors.push("El tamaño de la mesa requerido");
-			}
 			if(this.data.type == undefined){
-				this.errors.push("El tipo de mesa requerido");
+				this.errors.push("El tipo de turno es requerido");
 			}
-			if(this.data.turn_id == undefined){
-				this.errors.push("El turno en que se atiende la mesa es requerido");
+			if(this.data.date == undefined){
+				this.errors.push("La fecha del turno es requerido");
+			}
+			if(this.data.startingHour == undefined){
+				this.errors.push("La Hora de inicio es requerida");
+			}
+			if(this.data.endingHour == undefined){
+				this.errors.push("La Hora de Fin es requerida");
 			}
 			if (this.errors.length > 0) {
 				return false;
 			}
 			console.log(this.errors);
 			return true;
-		},
-		setNumberTable(){
-			let max = 1;
-			this.fullData .forEach(item =>{
-				this.numbersTables.push(parseInt(item.number));
-			});
-			this.numbersTables.forEach(item =>{
-				if(item>max){
-					max = item;
-				}
-			});
-			this.data.number = max + 1;
+		
+	
 		},
 		okMessage(text){
 			this.$swal.fire({
@@ -330,16 +272,11 @@ export default {
 				timer: 1500
 			});
 		},
-		checkNumber(number){
-			console.log(number);
-			if(parseInt(number) <= 0){
-				this.data.capacity = 1;
-			}
-		},
 		updateRow(item){
 			this.data = Object.assign({}, item);
 			this.update = true;
 			this.idToUpdate = item.id;
+			console.log(this.fullData);
 		},
 		cancelUpdate(){
 			this.update = false;
@@ -355,8 +292,9 @@ export default {
 			return this.update === false ? "btn btn-primary px-5":"btn btn-success px-5 mx-2";
 		},
 		txtButton(){
-			return this.update === false ? "Almacenar Mesa":"Guardar Cambios";
+			return this.update === false ? "Almacenar Turno":"Guardar Cambios";
 		}
+		
 	}
 }
 </script>
