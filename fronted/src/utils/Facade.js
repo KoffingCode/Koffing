@@ -110,7 +110,8 @@ export default class Facade {
 		})
 	}
 
-	getWaiters(processThen,processCatch){
+	// M E S E R O S
+	static getWaiters(processThen,processCatch){
 		axios.get(`/waiters`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -118,7 +119,7 @@ export default class Facade {
 		})
 	}
 
-	storeWaiter(waiter,processThen,processCatch){
+	static storeWaiter(waiter,processThen,processCatch){
 		axios.post(`/waiters`,waiter).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -126,7 +127,7 @@ export default class Facade {
 		})
 	}
 
-	updateWaiter(waiter,id,processThen,processCatch) {
+	static updateWaiter(waiter,id,processThen,processCatch) {
 		axios.put(`/waiters/${id}`,waiter).then((response) => {
 			processThen(response);
 		}).catch((error) => {
@@ -134,8 +135,17 @@ export default class Facade {
 		})
 	}
 
-	deleteWaiter(id,processThen,processCatch) {
+	static deleteWaiter(id,processThen,processCatch) {
 		axios.delete(`/waiters/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	// U S U A R I O S
+	static login(user,processThen,processCatch) {
+		axios.post(`/user`,user).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);

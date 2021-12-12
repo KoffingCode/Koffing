@@ -220,7 +220,7 @@ export default {
 	methods:{
 		getWaiters(){
 			this.status = "retrieving";
-			this.facade.getWaiters(
+			Facade.getWaiters(
 				response => {
 					console.log(response.data);
 					this.fullData = response.data;
@@ -240,7 +240,7 @@ export default {
 				this.send = false;
 
 				if(this.update === false){
-					this.facade.storeWaiter(
+					Facade.storeWaiter(
 						waiter,
 						response => {
 							this.okMessage("Mesero almacenado correctamente");
@@ -255,7 +255,7 @@ export default {
 						}
 					);
 				} else {
-					this.facade.updateWaiter(
+					Facade.updateWaiter(
 						waiter,
 						this.idToUpdate,
 						response => {
@@ -287,7 +287,7 @@ export default {
 			}).then((result) => {
 				if (result.isConfirmed) {
 					this.status = "deleting";
-					this.facade.deleteWaiter(
+					Facade.deleteWaiter(
 						id,
 						response => {
 							console.log(response.data);
