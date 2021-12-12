@@ -78,30 +78,9 @@ export default {
 				{
 					"name":"Meseros",
 					"url":"/admin/meseros"
-				},
-				{
-					"name":"Consultas",
-					"url":{
-						patch:"/mesero/consultas",
-						name:"Consultas",
-						params: {
-							docWaiter:this.waiterDoc
-						}
-					}
 				}
 			],
-			rutasMesero:[
-				{
-					"name":"Consultas",
-					"url":{
-						patch:"/mesero/consultas",
-						name:"Consultas",
-						params: {
-							docWaiter:this.waiterDoc
-						}
-					}
-				}
-			]
+			rutasMesero:[]
 		}
 	},
 	methods: {
@@ -132,6 +111,18 @@ export default {
 									this.createCookie("admin_session", this.username, this.email);
 								}
 								else {
+									this.rutasMesero = [
+										{
+											"name":"Consultas",
+											"url":{
+												patch:"/mesero/consultas",
+												name:"Consultas",
+												params: {
+													docWaiter:"1"
+												}
+											}
+										}
+									]
 									this.createCookie("waiter_session", this.username, this.email);
 								}
 								this.$router.push('/');

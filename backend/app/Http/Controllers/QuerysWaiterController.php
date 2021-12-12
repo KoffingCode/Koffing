@@ -38,4 +38,9 @@ class QuerysWaiterController extends Controller
 		$tables = $turn->tables()->get();
 		return self::checkResponse($tables);
 	}
+
+	public static function getWaiterByUser($id){
+		$waiter = Waiter::where('user_id', $id)->first();
+		return $waiter;
+	}
 }
