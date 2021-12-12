@@ -239,7 +239,7 @@ export default {
 		sendWaiterData(){
 			if(this.check()){
 				this.status = "sending";
-				this.data.user_id = 1;
+				//this.data.user_id = 1;
 				let waiter = new Waiter(this.data);
 				this.send = false;
 
@@ -292,10 +292,12 @@ export default {
 				response => {
 					console.log(response.data);
 					this.data.user_id = response.data.id;
+					console.log("USER_ID",this.data.user_id);
 					this.sendWaiterData();
 				},
 				error => {
 					console.log(error.data);
+					console.log(this.data.user_id);
 					this.status = "finish";
 				}
 			);

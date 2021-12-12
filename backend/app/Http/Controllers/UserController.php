@@ -37,7 +37,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         User::create($request->all());
-        return response()->json($request);
+        //return response()->json($request);
+        return response()->json(User::where('email', $request->input('email'))->first());
     }
 
     /**
