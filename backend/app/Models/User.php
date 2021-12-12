@@ -9,6 +9,13 @@ class User extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'username', 
+        'email', 
+        'password', 
+        'role'
+    ];
+
     public function waiter()
     {
         return $this->belongsTo(Waiter::class);
