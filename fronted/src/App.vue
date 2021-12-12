@@ -1,5 +1,5 @@
 <template>
-	<div v-if="user_id === ''">       
+	<div v-if="!adminCookieIsActive() && !waiterCookieIsActive()">       
 		<NavBar class="container-fluid" :route="ruta"/>	
 		<div class="container col-6">
 			<div class="row mt-3">
@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div v-else>       
-		<div v-if="role === 1">
+		<div v-if="adminCookieIsActive()">
 			<NavBar class="container-fluid" :routes="rutasAdmin"/>	
 			<div class="container justify-content-center">
 				<router-view/>
@@ -64,6 +64,8 @@ export default {
 			status: "",
 			ruta: "/Usuario/1/edit",
 			facade: new Facade(),
+			bcrypt: require('bcryptjs'),
+			ck: require('vue-cookies'),
 			rutasAdmin:[
 				{
 					"name":"Turnos",
@@ -87,6 +89,18 @@ export default {
 						}
 					}
 				}
+			],
+			rutasMesero:[
+				{
+					"name":"Consultas",
+					"url":{
+						patch:"/mesero/consultas",
+						name:"Consultas",
+						params: {
+							docWaiter:this.waiterDoc
+						}
+					}
+				}
 			]
 		}
 	},
@@ -95,27 +109,60 @@ export default {
 			return true;
 		},
 		login() {
+			//let a = this.bcrypt.hashSync("123");
+			//console.log(a);
 			if(this.check()){
 				this.status = "loging";
-				let user = new User(this.username, this.email, this.password, this.role);
+				let passwordHash = this.bcrypt.hashSync(this.password);
+				let user = new User(this.username, this.email, passwordHash, this.role);
 				Facade.login(
 					user,
 					response => {
-						this.user_id = response.data.id;
-						this.email = response.data.email;
-						this.username = response.data.username;
-						this.password = response.data.password;
-						this.role = response.data.role;
-						this.status = "loged";
-						console.log(this.user_id, this.email, this.username, this.password, this.role);
-						console.log(response.data);
+						//console.log(response.data.password, passwordHash);
+						this.bcrypt.compare(this.password, response.data.password).then(res => {
+							if (res) {
+								console.log("login correcto");
+								this.user_id = response.data.id;
+								this.email = response.data.email;
+								this.username = response.data.username;
+								this.password = "";
+								this.role = response.data.role;
+								this.status = "loged";
+								if (this.role === "admin") {
+									this.createCookie("admin_session", this.username, this.email);
+								}
+								else {
+									this.createCookie("waiter_session", this.username, this.email);
+								}
+								this.$router.push('/');
+							}
+							else {
+								this.$swal.fire({
+									position: 'center',
+									icon: 'error',
+									title: "Email o contraseña incorrectos",
+									showConfirmButton: false,
+									timer: 1500
+								});
+							}
+						});
 					}, error => {
 						console.log(error);
 						this.status = "fail";
 					}
 				);
 			}
-		}
+		},
+		createCookie(role, data1, data2) {
+			let hash = this.bcrypt.hashSync(data1+data2);
+			this.ck.set(role,hash,60*15);
+		},
+		adminCookieIsActive() {
+			return (this.ck.isKey("admin_session") ? true : false);
+		},
+		waiterCookieIsActive() {
+			return (this.ck.isKey("waiter_session") ? true : false);
+		},
 	}
 	
 }

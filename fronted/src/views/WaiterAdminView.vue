@@ -98,7 +98,7 @@
 		<div class="row mt-1">
 			<div class="col-12 d-flex justify-content-center">
 				<div class="mb-3">
-					<button @click="sendWaiterData" :class="stateButton()">
+					<button @click="registerWaiterUser" :class="stateButton()">
 						{{txtButton()}} 
 						<i class="bi bi-save2-fill"></i>
 					</button>
@@ -187,6 +187,7 @@
 <script>
 
 import Facade from '@/utils/Facade';
+import User from '@/model/User';
 import Waiter from '@/model/Waiter';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
@@ -214,7 +215,8 @@ export default {
 			update: false,
 			idToUpdate: "",
 			status: "",
-			facade: new Facade()
+			facade: new Facade(),
+			bcrypt: require('bcryptjs'),
 		}
 	},
 	methods:{
@@ -275,6 +277,26 @@ export default {
 					);
 				}
 			}
+		},
+		registerWaiterUser() {
+			var hash = this.bcrypt.hashSync("12345");
+			let user = new User(`${this.data.name}.${this.data.document}`,
+							`${this.data.name}.${this.data.document}@koffing.com`,
+							hash,
+							2);
+
+			Facade.registerUser(
+				user,
+				response => {
+					console.log(response.data);
+					this.data.user_id = response.data.id;
+					this.sendWaiterData();
+				},
+				error => {
+					console.log(error.data);
+					this.status = "finish";
+				}
+			);
 		},
 		deleteRow(id){
 			console.log(id);

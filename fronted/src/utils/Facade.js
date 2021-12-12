@@ -151,4 +151,12 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	static registerUser(user, processThen, processCatch) {
+		axios.post(`/users`,user).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 }

@@ -55,7 +55,7 @@ class UserController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
-        return response()->json(User::where('email', $email)->where('password', $password)->first());
+        return response()->json(User::where('email', $email)->first());
         //return response()->json(User::find([$request->all()])->first());
     }
 
