@@ -73,6 +73,15 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	static getUser(id,processThen,processCatch){
+		axios.get(`user/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
 	// T U R N O S
 	// Obtener todos los turnos
 	static getTurnsData(processThen,processCatch){

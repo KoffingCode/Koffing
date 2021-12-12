@@ -2,7 +2,7 @@
 	<div class="QuerysWaiter">
 
 		<transition name="fade">
-			<div v-if="currentWaiter!=null" class="WaiterData">
+			<div v-if="currentWaiter!=null && currentDataUser!=null" class="WaiterData">
 				<div class="card border-dark my-3" >
 					<h4 class="card-header">Datos personales:</h4>
 					<div class="card-body">
@@ -35,7 +35,7 @@
 								<strong>Usuario: </strong>
 							</div>
 							<div class="col-3">
-								---
+								{{currentDataUser.userName}}
 							</div>
 						</div>
 						<div class="row">
@@ -43,7 +43,7 @@
 								<strong>Correo: </strong>
 							</div>
 							<div class="col-3">
-								---
+								{{currentDataUser.email}}
 							</div>
 						</div>
 					</div>
@@ -176,6 +176,7 @@ export default {
 		return {
 			currentWaiter: null,
 			currentDateTurn: "",
+			currentDataUser: null,
 			turns: [],
 			tables: [],
 			filter: "",
@@ -189,6 +190,7 @@ export default {
 				response =>{
 					this.currentWaiter = response.data;
 					console.log(response.data);
+					this.getUser(this.currentWaiter.user_id);
 				},
 				error =>{
 					console.log(error);
@@ -201,6 +203,18 @@ export default {
 				response =>{
 					this.turns = response.data;
 					console.log(this.turns);
+				},
+				error =>{
+					console.log(error);
+				}
+			);
+		},
+		async getUser(id){
+			Facade.getUser(
+				id,
+				response =>{
+					console.log(response.data);
+					this.currentDataUser = response.data;
 				},
 				error =>{
 					console.log(error);
