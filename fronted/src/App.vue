@@ -26,19 +26,17 @@ export default {
 				{
 					"name":"Mesas",
 					"url":"/admin/mesas"
-				}/*,
+				},
 				{
-					"name": "Meseros",
-					"url": "/admin/meseros",
 					"name":"Consultas",
 					"url":{
 						patch:"/mesero/consultas",
 						name:"Consultas",
 						params: {
-							docWaiter:"1234"
+							docWaiter:"777"
 						}
 					}
-				}*/
+				}
 			],
 			rutasMesero:[]
 		}

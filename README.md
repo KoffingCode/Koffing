@@ -21,6 +21,7 @@
 | 4/12/2021  | Se hizo una mejora en la fachada de backend ahora enfocada en una api getway, se agregaron validaciones en las respuestas por parte del servidor | Crear las tablas en la vista de consultas por parte del mesero | Había un error con el nombre de la migración de la tabla pivote que impedía consultas a través de ella. |
 | 5/12/2021  | Se hizo el ajuste con la tabla pivote para que las consultas por parte del mesero se pudieran realizar | Agregar datos personales basicos a la vista de consultas por parte del mesero, consultas a partir del numero de documento pasado por props a la vista | |
 | 8/12/2021  | Se hicieron mejoras gráficas en la vista de consultas del mesero | Crear carga de turnos en la vista de mesas para asignar las relaciones entre mesa y turno | |
+| 12/12/2021  | Se hicieron mejoras adicionales en la consulta de los usuarios y la gestión de mesas | Incluir el nombre de usuario y el correo en la información basica en la consulta de meseros | |
 
 ------------
 
