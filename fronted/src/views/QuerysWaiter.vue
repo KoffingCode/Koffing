@@ -30,6 +30,22 @@
 								{{currentWaiter.document}}
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-3">
+								<strong>Usuario: </strong>
+							</div>
+							<div class="col-3">
+								---
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-3">
+								<strong>Correo: </strong>
+							</div>
+							<div class="col-3">
+								---
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -68,7 +84,7 @@
 								<td class="anchura">
 									<transition name="fade">
 									<div v-show="ind == selected">
-										<button @click="getTables(item.id,item.date)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+										<button @click="getTables(item.id,item.date)" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
 											Mesas
 										</button>
 									</div>
@@ -199,6 +215,16 @@ export default {
 				response =>{
 					this.tables = response.data;
 					console.log(this.tables);
+					if(response.data.length == 0){
+						this.$swal.fire({
+							title: 'Advertencia',
+							text: 'No hay mesas para este turno',
+							icon: 'warning',
+							showCancelButton: false,
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'Ok'
+						});
+					}
 				},
 				error =>{
 					console.log(error);
@@ -220,9 +246,6 @@ export default {
 
 <style scoped>
 
-.anchura {
-	width: 150px;
-}
 
 .contenido{
 	height: 300px;
@@ -237,7 +260,7 @@ export default {
 }
 
 td{
-	padding: 5px;
+	padding: 8px;
 }
 
 
@@ -265,5 +288,4 @@ td{
 .list-move {
 	transition: transform 1s;
 }
-
 </style>

@@ -66,17 +66,6 @@ export default {
 			facade: new Facade(),
 			rutasAdmin:[
 				{
-					"name":"Home",
-					"url":{
-						path: "/",
-						name: 'Home',
-						params: {
-							test: 'hello there',
-							test2: 'dfdf' 
-						},
-					},
-				},
-				{
 					"name":"Turnos",
 					"url":"/admin/turnos"
 				},
@@ -87,13 +76,9 @@ export default {
 				{
 					"name":"Meseros",
 					"url":"/admin/meseros"
-				}/*,
-				
-				}*/
-			],
-			rutasMesero:[
+				},
 				{
-					"name": "Meseros",
+					"name":"Consultas",
 					"url":{
 						patch:"/mesero/consultas",
 						name:"Consultas",
