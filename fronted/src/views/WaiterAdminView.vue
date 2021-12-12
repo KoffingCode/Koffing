@@ -139,6 +139,7 @@
 							<th scope="col">Ciudad</th>
 							<th scope="col">Teléfono</th>
 							<th scope="col">Nivel Académico</th>
+							<th scope="col">User_Id</th>
 						</tr>
 					</thead>
 					<transition-group name="list" tag="tbody">
@@ -155,12 +156,13 @@
 							<td>{{item.city}}</td>
 							<td>{{item.phone}}</td>
 							<td>{{item.academicLevel}}</td>
+							<td>{{item.user_id}}</td>
 
 							<td class="anchura">
 								<transition name="fade">
 								<div v-show="ind == selected">
 									<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
-									<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
+									<button @click="deleteRow(item.id, item.user_id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
 								</div>
 								</transition>
 							</td>
@@ -226,7 +228,7 @@ export default {
 			this.status = "retrieving";
 			Facade.getWaiters(
 				response => {
-					console.log(response.data);
+					//console.log(response.data);
 					this.fullData = response.data;
 					this.status = "finish";
 				},
@@ -290,6 +292,7 @@ export default {
 			Facade.registerUser(
 				user,
 				response => {
+					console.log("Usuario registrado exitosamente")
 					console.log(response.data);
 					this.data.user_id = response.data.id;
 					console.log("USER_ID",this.data.user_id);
@@ -302,8 +305,8 @@ export default {
 				}
 			);
 		},
-		deleteRow(id){
-			console.log(id);
+		deleteRow(id, user_id){
+			console.log("ids a eliminar", id, user_id);
 			this.$swal.fire({
 				title: '¿Desea eliminar este mesero?',
 				icon: 'question',
@@ -316,15 +319,27 @@ export default {
 					Facade.deleteWaiter(
 						id,
 						response => {
-							console.log(response.data);
+							console.log("mesero eliminado",response.data);
 							this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
 							this.status = "finish";
+							Facade.deleteUser(
+								user_id,
+								response => {
+									console.log("RESPONSE");
+									console.log(user_id, response.data);
+									this.status = "finish";
+								},
+								error => {
+									console.log(error.data);
+									this.status = "finish";
+								}
+							);
 						},
 						error => {
 							console.log(error.data);
 							this.status = "finish";
 						}
-					); 
+					);
 				} else if (result.isDenied) {
 					//this.$swal.fire('Changes are not saved', '', 'info')
 				}

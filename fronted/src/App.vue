@@ -1,25 +1,23 @@
 <template>
 	<div v-if="!adminCookieIsActive() && !waiterCookieIsActive()">       
 		<NavBar class="container-fluid" :route="ruta"/>	
-		<div class="container col-6">
-			<div class="row mt-3">
-				<div class="row mb-3">
-					<label for="name" class="col-sm-2 col-form-label">Email: </label>
-					<div class="col-sm-10">
-						<input v-model="email" type="text" class="form-controle" id="name">
-					</div>
-				</div>
-			</div>
+		<div class="container ">
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <label for="name" class="col-sm-2 col-form-label">Email: </label>
+                    <input v-model="email" type="text" id="name">
 
-			<div class="row mt-3">
-				<div class="row mb-3">
-					<label for="surname" class="col-sm-2 col-form-label">Contraseña: </label>
-					<div class="col-sm-10">
-						<input v-model="password" type="password" class="form-controle" id="surname">
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+
+            <div class="row mt-3 ">
+                <div class="col d-flex justify-content-center">
+                    <label for="surname" class="col-sm-2 col-form-label">Contraseña: </label>
+                    <input v-model="password" type="password" id="surname">
+
+                </div>
+            </div>
+        </div>
 
 		<div class="row mt-3">
 			<div class="col-12 d-flex justify-content-center">
@@ -167,3 +165,9 @@ export default {
 // Al igual que la verificación de su Hash
 </script>
 
+<style scoped>
+    input#name, input#surname{
+        width: 40%;
+    }
+
+</style>

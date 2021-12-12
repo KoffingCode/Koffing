@@ -168,4 +168,12 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	static deleteUser(id,processThen,processCatch) {
+		axios.delete(`/users/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 }
