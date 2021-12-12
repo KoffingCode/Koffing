@@ -5,12 +5,12 @@
 ### Simón Felipe Muñoz Osorio
 | Fecha  | Ayer | Hoy | Dificultades
 | ------------- | ------------- | ------------- | ------------- |
-| 27/11/2021  | Se creó el controlador, el modelo y la migración por medio de php artisan migrate.  | Se modificará el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán los métodos CRUD del controlador. |  |
-| 3/12/2021  | Se modificó el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán las definiciones de los métodos CRUD del controlador.  | Implementar los métodos CRUD del controlador y conectar la api gateway con la api de meseros |  |
+| 27/11/2021  | Se creó el controlador, el modelo y la migración por medio de php artisan migrate. | Se modificará el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán los métodos CRUD del controlador. |  |
+| 3/12/2021  | Se modificó el modelo Waiter y la migración para que tengan los atributos necesarios, y se crearán las definiciones de los métodos CRUD del controlador. | Implementar los métodos CRUD del controlador y conectar la api gateway con la api de meseros. |  |
 | 5/12/2021 | Se completaron las tareas pendients con respecto al backend de la historia de usuario "Parametrizar meseros". | Crear las vista para la parametrización de meseros. |  |
 | 10/12/2021 | Se comenzó la creación de la vista en el frontend | Ajustar el formulario de registro de meseros, conectar la vista con la fachada y la fachada con el backend. Verificar que funcionan los endpoint del CRUD desde el front.  |  |
 | 11/12/2021 | Se finalizó con la vista de parametrización de meseros y se probaron los métodos del CRUD para un usuario específico. | Crear la vista para el login, crear los endpoint en la api para post y get de un usuario y crear los métodos en el controlador para estos endpoint.  |  |
-| 12/12/2021 | Se creó la vista de login. También se crearon los endpoint en el backend y se completó la lógica de usuarios en los controladores. | Efectuar el login, mostrar los links en el navbar de acuerdo al rol del usuario y generar la cookie de la sesión.  | No estaban comparando bien los hashes de las contraseñas de los usuarios almacenadas en la BD. |
+| 12/12/2021 | Se creó la vista de login. También se crearon los endpoint en el backend y se completó la lógica de usuarios en los controladores. | Efectuar el login, mostrar los links en el navbar de acuerdo al rol del usuario y generar la cookie de la sesión.  | No se estaban comparando bien los hashes de las contraseñas de los usuarios almacenadas en la BD. |
 
 ------------
 

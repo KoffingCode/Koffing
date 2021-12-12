@@ -129,6 +129,7 @@ import Facade from '@/utils/Facade';
 import Turn from '@/model/Turn';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
+import CookieControl from '@/utils/CookieControl.js';
 
 export default {
 	name: "Create",
@@ -137,7 +138,7 @@ export default {
 		Verificar
 	},
 	created() {
-		this.getTurnsData();
+		CookieControl.checkAdminCookieIsActive(this.getTurnsData);
 	},
 	data() {
 		return {
