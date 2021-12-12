@@ -39,8 +39,8 @@ export default class Facade {
 	}
 
 	// Obtener datos del mesero
-	static getDataFromWaiter(document,processThen,processCatch){
-		axios.get(`querysWaiter/waiter/${document}`).then((response) => {
+	static getDataFromWaiter(id,processThen,processCatch){
+		axios.get(`querysWaiter/waiterByUser/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);

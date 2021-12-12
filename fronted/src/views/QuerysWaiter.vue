@@ -169,8 +169,9 @@ export default {
 		//Verificar
 	},
 	created() {
+		console.log(this.docWaiter);
 		this.getWaiter(this.docWaiter);
-		this.getTurns(this.docWaiter);
+		
 	},
 	data() {
 		return {
@@ -191,6 +192,7 @@ export default {
 					this.currentWaiter = response.data;
 					console.log(response.data);
 					this.getUser(this.currentWaiter.user_id);
+					this.getTurns(this.currentWaiter.document);
 				},
 				error =>{
 					console.log(error);
