@@ -43,4 +43,12 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+a{
+	color: #958bb7;
+}
+
+.navbar-dark .navbar-brand{
+	color: #eae280;
+}
+</style>
