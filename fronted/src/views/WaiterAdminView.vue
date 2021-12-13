@@ -140,6 +140,7 @@
 							<th scope="col">Teléfono</th>
 							<th scope="col">Nivel Académico</th>
 							<th scope="col">User_Id</th>
+							<th scope="col">Opciones</th>
 						</tr>
 					</thead>
 					<transition-group name="list" tag="tbody">
@@ -250,8 +251,8 @@ export default {
 						waiter,
 						response => {
 							this.okMessage("Mesero almacenado correctamente");
-							console.log(response.data);
-							this.fullData.push(this.data);
+							console.log("MESERO",response.data);
+							this.fullData.push(response.data);
 							this.data = {};
 							this.status = "ok";
 						},
@@ -283,27 +284,50 @@ export default {
 			}
 		},
 		registerWaiterUser() {
-			var hash = this.bcrypt.hashSync("12345");
-			let user = new User(`${this.data.name}.${this.data.document}`,
-							`${this.data.name}.${this.data.document}@koffing.com`,
-							hash,
-							2);
+			if(this.update === false){	
+				var hash = this.bcrypt.hashSync("12345");
+				let user = new User(`${this.data.name}.${this.data.document}`,
+								`${this.data.name.split(" ")[0].toLowerCase()}.${this.data.document}@koffing.com`,
+								hash,
+								2);
 
-			Facade.registerUser(
-				user,
-				response => {
-					console.log("Usuario registrado exitosamente")
-					console.log(response.data);
-					this.data.user_id = response.data.id;
-					console.log("USER_ID",this.data.user_id);
-					this.sendWaiterData();
-				},
-				error => {
-					console.log(error.data);
-					console.log(this.data.user_id);
-					this.status = "finish";
-				}
-			);
+				Facade.registerUser(
+					user,
+					response => {
+						console.log("Usuario registrado exitosamente")
+						console.log(response.data);
+						this.data.user_id = response.data.id;
+						console.log("USER_ID",this.data.user_id);
+						this.sendWaiterData();
+					},
+					error => {
+						console.log(error.data);
+						console.log(this.data.user_id);
+						this.status = "finish";
+					}
+				);
+			}
+			else {
+				let waiter = new Waiter(this.data);
+				Facade.updateWaiter(
+					waiter,
+					this.idToUpdate,
+					response => {
+						this.okMessage("Mesero actualizado correctamente");
+						this.update = false;
+						console.log(response.data);
+						let newObj = this.fullData.find(x => x.id == this.idToUpdate);
+						let indObj = this.fullData.indexOf(newObj);
+						this.fullData[indObj] = Object.assign({}, this.data);
+						this.data = {};
+						this.status = "ok";
+					},
+					error => {
+						console.log(error.data);
+						this.status = "finish";
+					}
+				);
+			}
 		},
 		deleteRow(id, user_id){
 			console.log("ids a eliminar", id, user_id);
