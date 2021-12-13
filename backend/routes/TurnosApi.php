@@ -15,6 +15,8 @@ public static function routesTurn(){
 		self::storeTurn('/turn',"storeTurn");
 		self::updateTurn('/turn/{id}',"updateTurn");
 		self::destroyTurn('/turn/{id}',"destroyTurn");
+		self::getOfTurn('/turnoMeseros/{id}',"getWaiters");
+		
 	}
 
     public static function getOfTurn($route,$processName)

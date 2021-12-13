@@ -28,9 +28,10 @@ class TurnController extends Controller
      */
     public function storeTurn(Request $request, Exception $exception)
     {
-
-        Turn::create($request->all());
-        $id_waiter = $request->all()['id_waiter'];
+      
+        $turno = $request['turno'];
+        Turn::create($turno);
+        $id_waiter = $request['lista_id_mesero'];
         $ultimo = Turn::latest()->first();
         $ultimo->waiters()->attach($id_waiter);
         // return self::checkResponse($request->all(),$exception);
@@ -77,8 +78,12 @@ class TurnController extends Controller
      */
     public function updateTurn(Request $request, Exception $exception,$id)
     {
-        $turn = Turn::where("id","=",$id)->first();
-        $turn->update($request->all());
+        $id_waiters_turno = $request['lista_id_mesero'];
+        $turn =$request['turno'];
+        $turnActual = Turn::where("id","=",$id)->first();
+        $turnActual->update($turn);
+        $turnActual->waiters()->detach($id_waiters_turno );
+       
         return self::checkResponse($turn,$exception);
     }
 
@@ -99,6 +104,11 @@ class TurnController extends Controller
             return response()->json(['error'=>"No turn found"]);
         }
     }
-
-    
+    public function getWaiters($id){
+        $turn = Turn::where("id", "=",$id)->first();
+       
+        return $turn->waiters()->get();
+       
+        
+    }
 }

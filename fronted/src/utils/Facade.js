@@ -109,7 +109,13 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
-
+	static getMeserosTurnos(id,processThen,processCatch){
+		axios.get(`turnoMeseros/${id}`).then((response)=>{
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
 	// M E S E R O S
 	static getWaiters(processThen,processCatch){
 		axios.get(`/waiters`).then((response) => {
