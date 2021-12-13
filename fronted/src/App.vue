@@ -1,6 +1,7 @@
 <template>
-	<div v-if="!adminCookieIsActive() && !waiterCookieIsActive()">       
-		<NavBar class="container-fluid" :route="ruta"/>	
+	<div v-if="!adminCookieIsActive() && !waiterCookieIsActive()"> 
+		<div class="container-fluid ">      
+		<NavBar  :route="ruta"/>	
 		<div class="container ">
 			<div  class="col-12 mt-5 d-flex justify-content-center">
 				<img alt="logo" src="./assets/logo2.png">
@@ -23,6 +24,7 @@
 				<button @click="login" class="btn btn-primary">Iniciar sesión</button>
 			</div>
 		</div>
+		</div>
 	</div>
 	<div v-else>       
 		<div v-if="adminCookieIsActive()">
@@ -38,6 +40,7 @@
 			</div>
 		</div>
 	</div>
+	
 </template>
 
 <script>
@@ -166,7 +169,7 @@ export default {
 
 <style scoped>
     input#name, input#surname{
-        width: 40%;
+        width: 30%;
     }
 
 </style>

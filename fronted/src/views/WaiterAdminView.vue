@@ -22,7 +22,7 @@
 
 		<div class="row mt-3">
 			<div class="col-6">
-				<div class="row mb-3">
+				<div class="row">
 					<label for="documentType" class="col-sm-2 col-form-label">Tipo de documento: </label>
 					<div class="col-sm-10">
 						<select v-model="data.documentType" class="form-select" aria-label="Default select example" id="documentType" >
@@ -35,7 +35,7 @@
 			</div>
 
 			<div class="col-6">
-				<div class="row mb-3">
+				<div class="row">
 					<label for="document" class="col-sm-2 col-form-label">Documento: </label>
 					<div class="col-sm-10">
 						<input @click="setDocument" v-model="data.document" type="text" class="form-control" id="document">
@@ -65,7 +65,7 @@
 		</div>
 
         <div class="row mt-3">
-			<div class="col-4">
+			<div class="col-6">
 				<div class="row mb-3">
 					<label for="city" class="col-sm-2 col-form-label">Ciudad: </label>
 					<div class="col-sm-10">
@@ -74,7 +74,7 @@
 				</div>
 			</div>
 
-            <div class="col-4">
+            <div class="col-6">
 				<div class="row mb-3">
 					<label for="phone" class="col-sm-2 col-form-label">Teléfono: </label>
 					<div class="col-sm-10">
@@ -82,9 +82,11 @@
 					</div>
 				</div>
 			</div>
+		</div>
 
-            <div class="col-4">
-				<div class="row mb-3">
+		<div class="row mt-3">
+            <div class="col-6">
+				<div class="row mb-1">
 					<label for="academicLevel" class="col-sm-2 col-form-label">Nivel académico: </label>
 					<div class="col-sm-10">
 						<input @click="setAcademicLevel" v-model="data.academicLevel" type="text" class="form-control" id="academicLevel">
