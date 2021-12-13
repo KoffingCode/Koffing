@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # ProyectoSoft3
 
 ## Daily Meetings
@@ -30,4 +28,3 @@
 ------------
 
 
->>>>>>> origin/test
