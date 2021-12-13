@@ -190,9 +190,12 @@ export default {
 				id,
 				response =>{
 					this.currentWaiter = response.data;
-					console.log(response.data);
-					this.getUser(this.currentWaiter.user_id);
-					this.getTurns(this.currentWaiter.document);
+					if(this.currentWaiter != ""){
+						this.getUser(this.currentWaiter.user_id);
+						this.getTurns(this.currentWaiter.document);
+					}else{
+						console.log("No se encontro el waiter");
+					}
 				},
 				error =>{
 					console.log(error);
@@ -205,6 +208,16 @@ export default {
 				response =>{
 					this.turns = response.data;
 					console.log(this.turns);
+					if(this.turns.length==0){
+						this.$swal.fire({
+							title: 'Advertencia',
+							text: 'No hay turnos para este mesero',
+							icon: 'warning',
+							showCancelButton: false,
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'Ok'
+						});
+					}
 				},
 				error =>{
 					console.log(error);
