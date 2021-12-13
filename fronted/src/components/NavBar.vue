@@ -15,17 +15,29 @@
 		<span class="navbar-text">
 			<router-link class="nav-link" to="/acerca"><i class="fas fa-laptop-code mx-1"></i>Acerca del proyecto</router-link>
 		</span>
+		<a href="/" @click="disconnect()" v-if="checkAnyCookieActive()">Cerrar sesión</a>
 		</div>
 	</div>
 </nav>
 </template>
 
 <script>
+import CookieControl from '@/utils/CookieControl.js'
+
 export default {
 	name: "NavBar",
 	props: {
 		routes: {
 			type: Array,
+		}
+	},
+	methods: {
+		disconnect() {
+			CookieControl.removeCookies();
+			//window.location.reload();
+		},
+		checkAnyCookieActive() {
+			return CookieControl.checkAnyCookieActive();
 		}
 	}
 }

@@ -37,7 +37,8 @@ class WaiterController extends Controller
     public function store(Request $request)
     {
         Waiter::create($request->all());
-        return response()->json($request);
+        //return response()->json($request);
+        return response()->json(Waiter::where('document', $request->input('document'))->first());
     }
 
     /**

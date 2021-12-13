@@ -37,7 +37,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         User::create($request->all());
-        return response()->json($request);
+        //return response()->json($request);
+        return response()->json(User::where('email', $request->input('email'))->first());
     }
 
     /**
@@ -55,7 +56,7 @@ class UserController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
-        return response()->json(User::where('email', $email)->where('password', $password)->first());
+        return response()->json(User::where('email', $email)->first());
         //return response()->json(User::find([$request->all()])->first());
     }
 

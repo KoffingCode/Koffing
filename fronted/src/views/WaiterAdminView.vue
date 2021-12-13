@@ -98,7 +98,7 @@
 		<div class="row mt-1">
 			<div class="col-12 d-flex justify-content-center">
 				<div class="mb-3">
-					<button @click="sendWaiterData" :class="stateButton()">
+					<button @click="registerWaiterUser" :class="stateButton()">
 						{{txtButton()}} 
 						<i class="bi bi-save2-fill"></i>
 					</button>
@@ -139,6 +139,8 @@
 							<th scope="col">Ciudad</th>
 							<th scope="col">Teléfono</th>
 							<th scope="col">Nivel Académico</th>
+							<th scope="col">User_Id</th>
+							<th scope="col">Opciones</th>
 						</tr>
 					</thead>
 					<transition-group name="list" tag="tbody">
@@ -155,12 +157,13 @@
 							<td>{{item.city}}</td>
 							<td>{{item.phone}}</td>
 							<td>{{item.academicLevel}}</td>
+							<td>{{item.user_id}}</td>
 
 							<td class="anchura">
 								<transition name="fade">
 								<div v-show="ind == selected">
 									<button @click="updateRow(item)" class="btn btn-warning btn-sm mx-1"><i class="bi bi-pencil-square"></i></button>
-									<button @click="deleteRow(item.id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
+									<button @click="deleteRow(item.id, item.user_id)" class="btn btn-danger btn-sm mx-1"><i class="bi bi-trash-fill"></i></button>
 								</div>
 								</transition>
 							</td>
@@ -187,9 +190,11 @@
 <script>
 
 import Facade from '@/utils/Facade';
+import User from '@/model/User';
 import Waiter from '@/model/Waiter';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
+import CookieControl from '@/utils/CookieControl.js';
 
 export default {
 	name: "AdminWaiters",
@@ -198,7 +203,7 @@ export default {
 		Verificar
 	},
 	created() {
-		this.getWaiters();
+		CookieControl.checkAdminCookieIsActive(this.getWaiters);
 	},
 	data() {
 		return {
@@ -214,7 +219,9 @@ export default {
 			update: false,
 			idToUpdate: "",
 			status: "",
-			facade: new Facade()
+			facade: new Facade(),
+			bcrypt: require('bcryptjs'),
+			ck: require('vue-cookies')
 		}
 	},
 	methods:{
@@ -222,7 +229,7 @@ export default {
 			this.status = "retrieving";
 			Facade.getWaiters(
 				response => {
-					console.log(response.data);
+					//console.log(response.data);
 					this.fullData = response.data;
 					this.status = "finish";
 				},
@@ -235,7 +242,7 @@ export default {
 		sendWaiterData(){
 			if(this.check()){
 				this.status = "sending";
-				this.data.user_id = 1;
+				//this.data.user_id = 1;
 				let waiter = new Waiter(this.data);
 				this.send = false;
 
@@ -244,8 +251,8 @@ export default {
 						waiter,
 						response => {
 							this.okMessage("Mesero almacenado correctamente");
-							console.log(response.data);
-							this.fullData.push(this.data);
+							console.log("MESERO",response.data);
+							this.fullData.push(response.data);
 							this.data = {};
 							this.status = "ok";
 						},
@@ -276,8 +283,54 @@ export default {
 				}
 			}
 		},
-		deleteRow(id){
-			console.log(id);
+		registerWaiterUser() {
+			if(this.update === false){	
+				var hash = this.bcrypt.hashSync("12345");
+				let user = new User(`${this.data.name}.${this.data.document}`,
+								`${this.data.name.split(" ")[0].toLowerCase()}.${this.data.document}@koffing.com`,
+								hash,
+								2);
+
+				Facade.registerUser(
+					user,
+					response => {
+						console.log("Usuario registrado exitosamente")
+						console.log(response.data);
+						this.data.user_id = response.data.id;
+						console.log("USER_ID",this.data.user_id);
+						this.sendWaiterData();
+					},
+					error => {
+						console.log(error.data);
+						console.log(this.data.user_id);
+						this.status = "finish";
+					}
+				);
+			}
+			else {
+				let waiter = new Waiter(this.data);
+				Facade.updateWaiter(
+					waiter,
+					this.idToUpdate,
+					response => {
+						this.okMessage("Mesero actualizado correctamente");
+						this.update = false;
+						console.log(response.data);
+						let newObj = this.fullData.find(x => x.id == this.idToUpdate);
+						let indObj = this.fullData.indexOf(newObj);
+						this.fullData[indObj] = Object.assign({}, this.data);
+						this.data = {};
+						this.status = "ok";
+					},
+					error => {
+						console.log(error.data);
+						this.status = "finish";
+					}
+				);
+			}
+		},
+		deleteRow(id, user_id){
+			console.log("ids a eliminar", id, user_id);
 			this.$swal.fire({
 				title: '¿Desea eliminar este mesero?',
 				icon: 'question',
@@ -290,15 +343,27 @@ export default {
 					Facade.deleteWaiter(
 						id,
 						response => {
-							console.log(response.data);
+							console.log("mesero eliminado",response.data);
 							this.fullData.splice(this.fullData.indexOf(this.fullData.find(x=>x.id == id)),1);
 							this.status = "finish";
+							Facade.deleteUser(
+								user_id,
+								response => {
+									console.log("RESPONSE");
+									console.log(user_id, response.data);
+									this.status = "finish";
+								},
+								error => {
+									console.log(error.data);
+									this.status = "finish";
+								}
+							);
 						},
 						error => {
 							console.log(error.data);
 							this.status = "finish";
 						}
-					); 
+					);
 				} else if (result.isDenied) {
 					//this.$swal.fire('Changes are not saved', '', 'info')
 				}

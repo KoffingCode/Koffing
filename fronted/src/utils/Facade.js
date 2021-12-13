@@ -39,8 +39,8 @@ export default class Facade {
 	}
 
 	// Obtener datos del mesero
-	static getDataFromWaiter(document,processThen,processCatch){
-		axios.get(`querysWaiter/waiter/${document}`).then((response) => {
+	static getDataFromWaiter(id,processThen,processCatch){
+		axios.get(`querysWaiter/waiterByUser/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);
@@ -73,6 +73,15 @@ export default class Facade {
 			processCatch(error);
 		})
 	}
+
+	static getUser(id,processThen,processCatch){
+		axios.get(`user/${id}`).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
 	// T U R N O S
 	// Obtener todos los turnos
 	static getTurnsData(processThen,processCatch){
@@ -152,6 +161,22 @@ export default class Facade {
 	// U S U A R I O S
 	static login(user,processThen,processCatch) {
 		axios.post(`/user`,user).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	static registerUser(user, processThen, processCatch) {
+		axios.post(`/users`,user).then((response) => {
+			processThen(response);
+		}).catch((error) => {
+			processCatch(error);
+		})
+	}
+
+	static deleteUser(id,processThen,processCatch) {
+		axios.delete(`/users/${id}`).then((response) => {
 			processThen(response);
 		}).catch((error) => {
 			processCatch(error);
