@@ -196,7 +196,7 @@ import User from '@/model/User';
 import Waiter from '@/model/Waiter';
 import Modal from '@/components/Modal.vue'
 import Verificar from '@/components/Verificar.vue';
-import CookieControl from '@/utils/CookieControl.js';
+//import CookieControl from '@/utils/CookieControl.js';
 
 export default {
 	name: "AdminWaiters",
@@ -205,7 +205,7 @@ export default {
 		Verificar
 	},
 	created() {
-		CookieControl.checkAdminCookieIsActive(this.getWaiters);
+		//CookieControl.checkAdminCookieIsActive(this.getWaiters);
 	},
 	data() {
 		return {

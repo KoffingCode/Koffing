@@ -1,45 +1,13 @@
 <template>
-	<div v-if="!adminCookieIsActive() && !waiterCookieIsActive()"> 
-		<div class="container-fluid ">      
-		<NavBar  :route="ruta"/>	
-		<div class="container ">
-			<div  class="col-12 mt-5 d-flex justify-content-center">
-				<img alt="logo" src="./assets/logo2.png">
-			</div>
-            <div class="row mt-3">
-                <div class="col d-flex justify-content-center">
-                    <label for="name" class="col-sm-2 col-form-label">Email: </label>
-                    <input v-model="email" type="text" id="name">
-                </div>
-            </div>
-            <div class="row mt-3 ">
-                <div class="col d-flex justify-content-center">
-                    <label for="surname" class="col-sm-2 col-form-label">Contraseña: </label>
-                    <input v-model="password" type="password" id="surname">
-                </div>
-            </div>
-        </div>
-		<div class="row mt-3">
-			<div class="col-12 d-flex justify-content-center">
-				<button @click="login" class="btn btn-primary">Iniciar sesión</button>
-			</div>
-		</div>
+
+	<div class="container-fluid ">      
+		<NavBar class="container-fluid" :routes="rutasAdmin"/>	
+		<div class="container justify-content-center">
+			<router-view/>
 		</div>
 	</div>
-	<div v-else>       
-		<div v-if="adminCookieIsActive()">
-			<NavBar class="container-fluid" :routes="rutasAdmin"/>	
-			<div class="container justify-content-center">
-				<router-view/>
-			</div>
-		</div>
-		<div v-else>
-			<NavBar class="container-fluid" :routes="rutasMesero"/>	
-			<div class="container justify-content-center">
-				<router-view/>
-			</div>
-		</div>
-	</div>
+
+
 	
 </template>
 
